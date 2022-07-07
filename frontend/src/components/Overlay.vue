@@ -46,8 +46,8 @@ export default {
       border-radius: 10px;
       width: 70%;
       margin: 10px auto 30px auto;
-      padding: 20px;
       cursor: pointer;
+      padding: 20px;
     }
     .publisher {
       text-decoration-line: underline;
@@ -102,13 +102,11 @@ export default {
     }
 
     @media screen and (max-width: 600px) {
-    .posts {
-      height: 50px;
+      .posts {
+        padding: 5px;
+        width: 95%;
+      }
     }
-    .posts * {
-      margin: auto;
-      padding: auto;
-    }
-  }
+
 
 </style>

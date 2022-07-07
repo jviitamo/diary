@@ -3,6 +3,9 @@
       <router-link to="/" :style="this.$route.fullPath === '/' ? {textDecorationLine: 'underline'} : {textDecorationLine: 'none'}">Postaukset</router-link>
       <router-link to="/createpost" :style="this.$route.fullPath === '/createpost' ? {textDecorationLine: 'underline'} : {textDecorationLine: 'none'}">Luo postaus</router-link>
   </div>
+  <div class="mobilemenu">
+    <img src="../../public/dashboard.png">
+  </div>
 </template>
 
 <script>

@@ -1,17 +1,14 @@
 <template>
-  <div class="create-container">
-    <h1>Luo postaus</h1>
     <form>
       <input type="text" v-model="name" placeholder="Postauksen nimi"><br>
       <input type="text" v-model="publisher" placeholder="Julkaisijan nimi"><br>
       <textarea v-model="content" placeholder="Sisältö" rows="7" cols="70"></textarea>
       <input type="file" id="file" v-on:change="onFileChange" name="photo" accept="image/png, image/jpeg">
       <button @click.prevent="sendPost(this.name, this.publisher, this.content, this.file)">Lähetä postaus</button>
-      <div :class="this.formSent ? 'success' : 'failure'">
-          <p>{{ this.showMessage }}</p>
-      </div>
     </form>
-  </div>
+    <div :class="this.formSent ? 'success' : 'failure'">
+      <p>{{ this.showMessage }}</p>
+    </div>
 </template>
 
 <script>
@@ -98,23 +95,15 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 
-    .success {
-      color: green;
-    }
-    .failure {
-      color: red;
-    }
-  .create-container {
-    background-color: white;
-    display: inline-block;
-    width: 70%;
-    margin: 50px auto;
-    border-radius: 10px;
+  .success {
+    color: green;
+  }
+  .failure {
+    color: red;
   }
   form {
     width: 100%;
     font-family: 'Montserrat';
-    padding: 30px 0;
   }
   form *{
     width: 70%;
@@ -124,6 +113,7 @@ export default {
   }
   form > div {
     text-align: center;
+    padding-bottom: 50px;
   }
   button {
     padding: 1em;
@@ -145,12 +135,6 @@ export default {
   }
   h1 {
     padding: 30px;
-  }
-
-  @media screen and (max-width: 600px) {
-    .create-container {
-      width: 90%;
-    }
   }
 
 </style>

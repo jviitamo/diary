@@ -1,16 +1,15 @@
 <template>
-  <NavBar />
-  <router-view />
+  <Home />
 </template>
 
 <script>
 
-import NavBar from './components/NavBar.vue'
+import Home from './components/Home.vue'
 
 export default {
   name: 'App',
   components: {
-    NavBar
+    Home
   }
 }
 </script>
@@ -33,5 +32,11 @@ export default {
   background-repeat: no-repeat;
   background-size: cover;
   background-attachment: fixed; 
+}
+
+@media screen and (max-width: 600px) {
+  #app {
+    height: calc(100vh - 80px);
+  }
 }
 </style>
