@@ -12,7 +12,7 @@ app.use(cors());
 
 var storage = multer.diskStorage({   
   destination: function(req, file, cb) { 
-     cb(null, '../frontend/public/');    
+     cb(null, '../frontend/public/photos');    
   }, 
   filename: function (req, file, cb) { 
      cb(null , file.originalname);   
