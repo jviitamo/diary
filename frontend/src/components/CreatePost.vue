@@ -54,6 +54,7 @@ export default {
         this.formSent = false
         this.showMessage = "Täytäthän kaikki kentät"
       } else {
+        this.showMessage = "Ladataan tiedostoa..."
         const path = await this.sendFile(file)
         try {
           this.showMessage = "Ladataan postausta..."
