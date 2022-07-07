@@ -106,14 +106,15 @@ export default {
     }
   .create-container {
     background-color: white;
+    display: inline-block;
     width: 70%;
-    margin: 100px auto;
-    height: 70%;
+    margin: 50px auto;
     border-radius: 10px;
   }
   form {
     width: 100%;
     font-family: 'Montserrat';
+    padding: 30px 0;
   }
   form *{
     width: 70%;
@@ -144,6 +145,12 @@ export default {
   }
   h1 {
     padding: 30px;
+  }
+
+  @media screen and (max-width: 600px) {
+    .create-container {
+      width: 90%;
+    }
   }
 
 </style>

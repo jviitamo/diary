@@ -28,7 +28,7 @@ export default {
   text-align: center;
   margin: 0;
   padding: 0;
-  height: 100%;
+  min-height: 100%;
   background-image: url('./assets/bg3.jpg');
   background-repeat: no-repeat;
   background-size: cover;

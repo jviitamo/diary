@@ -45,7 +45,7 @@ export default {
       background-color: #FDCA3B;
       border-radius: 10px;
       width: 70%;
-      margin: 30px auto;
+      margin: 10px auto 30px auto;
       padding: 20px;
       cursor: pointer;
     }
@@ -100,5 +100,15 @@ export default {
     .overlay img {
       width: 70%;
     }
+
+    @media screen and (max-width: 600px) {
+    .posts {
+      height: 50px;
+    }
+    .posts * {
+      margin: auto;
+      padding: auto;
+    }
+  }
 
 </style>

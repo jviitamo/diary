@@ -36,18 +36,25 @@ export default {
 
 .posts-container {
   background-color: white;
+  display: inline-block;
   width: 70%;
-  margin: 100px auto;
-  height: 70vh;
+  margin: 50px auto;
+  height: 80vh;
+  min-height: 500px;
   border-radius: 10px;
 }
 .posts-list {
     display: block;
-    height: 50vh;
+    height: 60vh;
     overflow-y: scroll;
 }
-  h1 {
-    margin: 0;
-    padding: 50px 0;
+h1 {
+  margin: 0;
+  padding: 40px 0;
+}
+@media screen and (max-width: 600px) {
+    .posts-container {
+      width: 90%;
+    }
   }
 </style>
