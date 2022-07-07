@@ -81,10 +81,10 @@ export default {
           this.showMessage = error
           this.formSent = false
         }
-        setTimeout(() => {
+      }
+      setTimeout(() => {
             this.showMessage = ""
         }, 5000)
-      }
     }
   },
    created() {
