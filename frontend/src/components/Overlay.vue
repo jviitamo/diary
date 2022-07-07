@@ -9,7 +9,7 @@
           <h2>{{ name }}</h2>
           <p class="publisher">{{ publisher }}</p>
           <p>{{ content }}</p>
-          <img :src="`../../${photo}`">
+          <img :src="`/photos/${photo}`">
       </div>
   </div>
 </template>
