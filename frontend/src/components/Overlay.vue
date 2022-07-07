@@ -80,6 +80,7 @@ export default {
         border-radius: 2em;
         display: block;
         overflow-y: scroll;
+        overflow-wrap: break-word;
     }
     .closebutton {
         position: relative;
