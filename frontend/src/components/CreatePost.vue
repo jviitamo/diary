@@ -57,7 +57,6 @@ export default {
         this.showMessage = "Ladataan tiedostoa..."
         const path = await this.sendFile(file)
         try {
-          this.showMessage = "Ladataan postausta..."
           const response = await axios({
             method: 'post',
             url: process.env.VUE_APP_SEND_POST,
