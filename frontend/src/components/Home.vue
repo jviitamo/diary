@@ -56,7 +56,7 @@ export default {
   @media screen and (max-width: 600px) {
     .container {
       width: 90vw;
-      height: 90vh
+      height: 80vh
     }
     .links {
         font-size: 16px;

@@ -56,6 +56,7 @@ export default {
       } else {
         const path = await this.sendFile(file)
         try {
+          this.showMessage = "Ladataan postausta..."
           const response = await axios({
             method: 'post',
             url: process.env.VUE_APP_SEND_POST,
@@ -99,7 +100,7 @@ export default {
     color: green;
   }
   .failure {
-    color: red;
+    color: black;
   }
   form {
     width: 100%;
