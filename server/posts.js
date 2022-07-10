@@ -1,35 +1,41 @@
-require('dotenv').config()
-const { Pool } = require("pg");
-
-const credentials = {
-  user: process.env.user,
-  host: process.env.host,
-  database: process.env.database,
-  password: process.env.password,
-  port: process.env.port,
-};
+const posts = require('./post-functions');
+const multer = require("multer");
+const { Router } = require("express");
+const middleware = require("./middleware")
 
 
-async function getPosts() {
-  const pool = new Pool(credentials);
-  const posts = await pool.query("SELECT * FROM posts");
-  await pool.end();
-  console.log(posts)
-  return posts.rows;
+var storage = multer.diskStorage({   
+    destination: function(req, file, cb) { 
+       cb(null, '../frontend/public/photos');    
+    }, 
+    filename: function (req, file, cb) { 
+       cb(null , file.originalname);   
+    }
+  });
+  
+const upload = multer({ storage: storage });
+const router = Router(); 
+
+router.post('/new-post', middleware, async (req, res, next) => {
+    try {
+      res.json(await posts.insertPost(req.body));
+    } catch (err) {
+      next(err);
+    }
+  });
+  
+router.post('/upload', upload.single('file'), middleware, function(req, res) {
+const file = req.file;
+
+res.json({path: file.filename});
+});
+
+router.get('/all', middleware, async (req, res, next) => {
+try {
+    res.json(await posts.getPosts());
+} catch (err) {
+    next(err);
 }
+});
 
-async function insertPost(mail) {
-  const pool = new Pool(credentials);
-  const text = `INSERT INTO posts (id, name, publisher, content, photo) VALUES (default, $1, $2, $3, $4)`;
-  const values = [mail.name, mail.publisher, mail.content, mail.photo];
-  response = await pool.query(text, values);
-  console.log(values)
-  await pool.end();
-  return values;
-}
-
-
-module.exports = {
-  getPosts,
-  insertPost
-}
+module.exports = router

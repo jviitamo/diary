@@ -14,6 +14,7 @@
 <script>
 
 import axios from 'axios'
+import authHeader from '@/helpers/auth'
 
 /* eslint-disable */
 export default {
@@ -42,10 +43,14 @@ export default {
       formData.append('file', file);
 
       // Details of the uploaded file
-      let response = await axios.post(process.env.VUE_APP_UPLOAD, formData)
+      let response = await axios({
+        method: "post",
+        url: process.env.VUE_APP_UPLOAD,
+        headers: authHeader(),
+        data: formData
+      })
       const data = await response.data
-      console.log(data.path)
-
+      
       return data.path
     },
     async sendPost(name, publisher, content, file) {
@@ -65,7 +70,8 @@ export default {
                 "publisher": publisher, 
                 "content": content,
                 "photo": path
-            }
+            },
+            headers: authHeader()
           })
           const data = await response.data
           console.log(data)
@@ -85,10 +91,6 @@ export default {
             this.showMessage = ""
         }, 5000)
     }
-  },
-   created() {
-    axios.get(process.env.VUE_APP_GET_POSTS)
-        .then(response => console.log(response.data))
   }
 }
 </script>

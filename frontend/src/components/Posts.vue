@@ -9,6 +9,7 @@
 
 import axios from 'axios'
 import Overlay from './Overlay.vue'
+import authHeader from '@/helpers/auth';
 
 export default {
     name: "Posts",
@@ -18,7 +19,7 @@ export default {
         };
     },
     created() {
-        axios.get(process.env.VUE_APP_GET_POSTS)
+        axios.get(process.env.VUE_APP_GET_POSTS, { headers: authHeader() })
             .then(response => {
               this.posts = response.data
               console.log(response.data)

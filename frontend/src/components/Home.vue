@@ -2,8 +2,11 @@
   <div class="main-container">
       <div class="container">
           <div class="links">
-            <router-link to="/" :style="this.$route.fullPath === '/' ? {textDecorationLine: 'underline'} : {textDecorationLine: 'none'}">Postaukset</router-link>
-            <router-link to="/createpost" :style="this.$route.fullPath === '/createpost' ? {textDecorationLine: 'underline'} : {textDecorationLine: 'none'}">Luo postaus</router-link>
+            <router-link to="/" v-if="!isNotSigned()" :style="this.$route.fullPath === '/' ? {textDecorationLine: 'underline'} : {textDecorationLine: 'none'}">Postaukset</router-link>
+            <router-link to="/createpost" v-if="!isNotSigned()" :style="this.$route.fullPath === '/createpost' ? {textDecorationLine: 'underline'} : {textDecorationLine: 'none'}">Luo postaus</router-link>
+            <router-link to="/login" v-if="isNotSigned()" :style="this.$route.fullPath === '/login' ? {textDecorationLine: 'underline'} : {textDecorationLine: 'none'}">Kirjaudu</router-link>
+            <router-link to="/signup" v-if="isNotSigned()" :style="this.$route.fullPath === '/signup' ? {textDecorationLine: 'underline'} : {textDecorationLine: 'none'}">Luo käyttäjä</router-link>
+            <router-link to="/myinformation" v-if="!isNotSigned()" :style="this.$route.fullPath === '/myinformation' ? {textDecorationLine: 'underline'} : {textDecorationLine: 'none'}">Minun tietoni</router-link>
           </div>
         <router-view />
       </div>
@@ -15,8 +18,14 @@
 /* eslint-disable */
 export default {
   name: 'Home',
-  props: {
-    msg: String
+  methods: {
+    SignOut() {
+      localStorage.removeItem('user');
+      this.$router.push("/login")
+    },
+    isNotSigned() {
+      return !localStorage.getItem('user')
+    }
   }
 }
 </script>
@@ -62,6 +71,9 @@ export default {
         font-size: 16px;
         width: 80%;
         margin: 20px auto;  
+    }
+    .links > div {
+      cursor: pointer;
     }
   }
 
