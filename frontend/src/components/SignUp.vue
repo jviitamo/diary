@@ -2,7 +2,7 @@
     <form>
       <input type="text" v-model="username" placeholder="Käyttäjänimi"><br>
       <input type="password" v-model="password" placeholder="Salasana"><br>
-      <button @click.prevent="Login(this.username, this.password)">Luo käyttäjä</button>
+      <button @click.prevent="SignUp(this.username, this.password)">Luo käyttäjä</button>
     </form>
     <div :class="this.formSent ? 'success' : 'failure'">
       <p>{{ this.showMessage }}</p>
@@ -25,30 +25,27 @@ export default {
     }
   },
   methods: {
-    async Login(username, password) {
+    async SignUp(username, password) {
       if (username === "" || password === "") {
         this.formSent = false
         this.showMessage = "Täytäthän kaikki kentät"
       } else {
             try {
-            const response = await axios({
-                method: 'post',
-                url: process.env.VUE_APP_SIGNUP,
-                data: {
-                    "username": username, 
-                    "password": password
-                }
-            })
-            const data = await response.data
-            console.log(data)
-
-            this.formSent = true
-            this.username = ""
-            this.password = ""
-            this.showMessage = "Loit onnistuneesti uuden käyttäjän!"
+              await axios({
+                  method: 'post',
+                  url: process.env.VUE_APP_SIGNUP,
+                  data: {
+                      "username": username, 
+                      "password": password
+                  }
+              })
+              this.formSent = true
+              this.username = ""
+              this.password = ""
+              this.showMessage = "Loit onnistuneesti uuden käyttäjän!"
             } catch (error) {
-            this.showMessage = error
-            this.formSent = false
+              this.showMessage = error.response.data
+              this.formSent = false
             }
       }
       setTimeout(() => {
@@ -66,7 +63,7 @@ export default {
     color: green;
   }
   .failure {
-    color: black;
+    color: red;
   }
   form {
     width: 100%;

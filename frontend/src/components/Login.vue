@@ -43,7 +43,7 @@ export default {
             localStorage.setItem('user', JSON.stringify(response.data));
             this.$router.push("/")
             } catch (error) {
-            this.showMessage = "Kirjautuminen epäonnistui"
+            this.showMessage = error.response.data
             this.formSent = false
             }
       }
@@ -62,7 +62,7 @@ export default {
     color: green;
   }
   .failure {
-    color: black;
+    color: red;
   }
   form {
     width: 100%;

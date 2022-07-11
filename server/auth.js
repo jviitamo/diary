@@ -13,10 +13,15 @@ router.post("/signup", async (req, res) => {
     const pool = new Pool(credentials);
     try {
         const password = await bcrypt.hash(req.body.password, 10);
-        const response = await pool.query("INSERT INTO users (username, password) VALUES ($1, $2)", [req.body.username, password]) 
-
-        await pool.end();
-        res.json(response);
+        const checkIfReserved = await pool.query("SELECT * FROM users WHERE username=$1", [req.body.username]);
+        if (checkIfReserved.rows.length > 0) {
+          await pool.end();
+          res.status(400).json("Käyttäjänimi on jo varattu");
+        } else {
+          const response = await pool.query("INSERT INTO users (username, password) VALUES ($1, $2)", [req.body.username, password]) 
+          await pool.end();
+          res.json(response);
+        }
     } catch (error) {
         res.status(400).json({ error });
     }
@@ -36,10 +41,10 @@ router.post("/login", async (req, res) => {
         const token = await jwt.sign({ username: user.username }, SECRET);
         res.json({ token });
       } else {
-        res.status(400).json({ error: "password doesn't match" });
+        res.status(400).json("Väärä salasana");
       }
     } else {
-      res.status(400).json({ error: "User doesn't exist" });
+      res.status(400).json("Käyttäjää ei ole olemassa");
     }
   } catch (error) {
     res.status(400).json({ error });
