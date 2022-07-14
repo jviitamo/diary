@@ -1,9 +1,9 @@
 const credentials = {
-    user: process.env.user,
-    host: process.env.host,
-    database: process.env.database,
-    password: process.env.password,
-    port: process.env.dbport,
+    user: process.env.POSTGRES_USER,
+    host: process.env.HOST,
+    database: process.env.POSTGRES_DB,
+    password: process.env.POSTGRES_PASSWORD,
+    port: process.env.PGPORT,
   };
 
 module.exports = credentials
