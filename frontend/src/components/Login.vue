@@ -33,7 +33,7 @@ export default {
             try {
             const response = await axios({
                 method: 'post',
-                url: process.env.VUE_APP_LOGIN,
+                url: `${process.env.VUE_APP_API_URL}/users/login`,
                 data: {
                     "username": username, 
                     "password": password

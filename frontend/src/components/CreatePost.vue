@@ -45,7 +45,7 @@ export default {
       // Details of the uploaded file
       let response = await axios({
         method: "post",
-        url: process.env.VUE_APP_UPLOAD,
+        url: `${process.env.VUE_APP_API_URL}/posts/upload`,
         headers: authHeader(),
         data: formData
       })
@@ -64,7 +64,7 @@ export default {
         try {
           const response = await axios({
             method: 'post',
-            url: process.env.VUE_APP_SEND_POST,
+            url: `${process.env.VUE_APP_API_URL}/posts/new-post`,
             data: {
                 "name": name, 
                 "publisher": publisher, 

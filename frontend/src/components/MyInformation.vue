@@ -38,7 +38,7 @@ export default {
                 try {
                     const response = await axios({
                     method: "post",
-                    url: process.env.VUE_APP_NEWPASSWORD,
+                    url: `${process.env.VUE_APP_API_URL}/users/newpassword`,
                     headers: authHeader(), 
                     data: { 
                         "old_password": old_password,
@@ -59,7 +59,7 @@ export default {
         }
     },
     async created() {
-        const response = await axios.get(process.env.VUE_APP_USER, { headers: authHeader() })
+        const response = await axios.get(`${process.env.VUE_APP_API_URL}/users/user`, { headers: authHeader() })
         const user = await response.data
         this.user = user
         console.log(this.user.username)

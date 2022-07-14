@@ -19,7 +19,7 @@ export default {
         };
     },
     created() {
-        axios.get(process.env.VUE_APP_GET_POSTS, { headers: authHeader() })
+        axios.get(`${process.env.VUE_APP_API_URL}/posts/all`, { headers: authHeader() })
             .then(response => {
               this.posts = response.data
               console.log(response.data)
