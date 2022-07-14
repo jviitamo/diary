@@ -65,10 +65,17 @@ router.get('/user', middleware, async (req, res, next) => {
 router.post('/newpassword', middleware, async (req, res, next) => {
   try {
     const pool = new Pool(credentials);
-    const password = await bcrypt.hash(req.body.password, 10);
-    const user = await pool.query("UPDATE users SET password=$1 WHERE username=$2", [password, req.user.username]);
-    await pool.end();
-    res.json(user.rows[0]);
+    const new_password = await bcrypt.hash(req.body.new_password, 10);
+    const old_password = await bcrypt.hash(req.body.old_password, 10);
+    const users = await pool.query("SELECT * FROM users WHERE username=$1", [req.user.username])
+    const isSameUser = await bcrypt.compare(req.body.password, users.rows[0].password);
+    if (isSameUser) {
+      const user = await pool.query("UPDATE users SET password=$1 WHERE username=$2 AND password=$3", [new_password, req.user.username, old_password]);
+      await pool.end();
+      res.json(user.rows[0]);
+    } else {
+      res.json("Väärä salasana")
+    }
   } catch (err) {
       next(err);
   }

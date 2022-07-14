@@ -6,7 +6,7 @@ const middleware = require("./middleware")
 
 var storage = multer.diskStorage({   
     destination: function(req, file, cb) { 
-       cb(null, '../frontend/public/photos');    
+       cb(null, '/usr/src/app/temp_uploads');    
     }, 
     filename: function (req, file, cb) { 
        cb(null , file.originalname);   

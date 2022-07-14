@@ -3,7 +3,7 @@ const credentials = {
     host: process.env.host,
     database: process.env.database,
     password: process.env.password,
-    port: process.env.port,
+    port: process.env.dbport,
   };
 
 module.exports = credentials

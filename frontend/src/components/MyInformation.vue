@@ -3,9 +3,10 @@
         <div v-if="user !== null">
             <p>Käyttänimi: {{ user.username }}</p>
             <p>Vaihda salasana:</p>
-            <input type="password" v-model="password" placeholder="Uusi salasana"><br>
+            <input type="password" v-model="old_password" placeholder="Vanha salasana"><br>
+            <input type="password" v-model="new_password" placeholder="Uusi salasana"><br>
             <p>{{ this.showMessage }}</p>
-            <button @click.prevent="ChangePassword(this.password)">Vaihda salasana</button>
+            <button @click.prevent="ChangePassword(old_password, new_password)">Vaihda salasana</button>
         </div>
         <button @click="SignOut()">Kirjaudu ulos</button>
   </div>
@@ -22,6 +23,7 @@ export default {
     data() {
         return {
             user: null,
+            old_password: '',
             new_password: '',
             showMessage: ''
         };
@@ -31,17 +33,23 @@ export default {
             localStorage.removeItem('user');
             this.$router.push("/login")
         },
-        async ChangePassword(new_password) {
-            if (new_password !== '') {
-                await axios({
+        async ChangePassword(old_password, new_password) {
+            if (new_password !== '' && new_password !== '') {
+                try {
+                    const response = await axios({
                     method: "post",
                     url: process.env.VUE_APP_NEWPASSWORD,
                     headers: authHeader(), 
                     data: { 
-                        "password": new_password 
+                        "old_password": old_password,
+                        "new_password": new_password
                     }
                 })
-                this.showMessage = 'Salasana vaihdettu onnistuneesti'
+                    console.log(response)
+                    this.showMessage = 'Salasana vaihdettu onnistuneesti'
+                } catch(error) {
+                    this.showMessage = 'Salasana ei täsmää'
+                }
             } else {
                 this.showMessage = 'Täytä salasanakenttä'
             }
