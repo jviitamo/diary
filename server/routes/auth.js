@@ -4,9 +4,9 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken"); 
 const router = Router(); 
 const { SECRET = "secret" } = process.env;
-const credentials = require("./credentials")
+const credentials = require("../helpers/credentials")
 const { Pool } = require("pg");
-const middleware = require("./middleware")
+const middleware = require("../helpers/middleware")
 
 router.post("/signup", async (req, res) => {
     const pool = new Pool(credentials);

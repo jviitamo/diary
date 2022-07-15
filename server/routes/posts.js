@@ -1,7 +1,7 @@
-const posts = require('./post-functions');
+const posts = require('../helpers/post-functions');
 const multer = require("multer");
 const { Router } = require("express");
-const middleware = require("./middleware")
+const middleware = require("../helpers/middleware")
 
 
 var storage = multer.diskStorage({   

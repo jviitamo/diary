@@ -1,8 +1,8 @@
 const express = require('express');
 const cors = require("cors");
-const UserRouter = require("./auth")
-const PostRouter = require("./posts")
-const LocationRouter = require("./location")
+const UserRouter = require("./routes/auth")
+const PostRouter = require("./routes/posts")
+const LocationRouter = require("./routes/location")
 const app = express();
 const port = process.env.PORT;
 
