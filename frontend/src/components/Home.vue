@@ -2,11 +2,12 @@
   <div class="main-container">
       <div class="container">
           <div class="links">
-            <router-link to="/" v-if="!isNotSigned()" :style="this.$route.fullPath === '/' ? {textDecorationLine: 'underline'} : {textDecorationLine: 'none'}">Postaukset</router-link>
-            <router-link to="/createpost" v-if="!isNotSigned()" :style="this.$route.fullPath === '/createpost' ? {textDecorationLine: 'underline'} : {textDecorationLine: 'none'}">Luo postaus</router-link>
-            <router-link to="/login" v-if="isNotSigned()" :style="this.$route.fullPath === '/login' ? {textDecorationLine: 'underline'} : {textDecorationLine: 'none'}">Kirjaudu</router-link>
-            <router-link to="/signup" v-if="isNotSigned()" :style="this.$route.fullPath === '/signup' ? {textDecorationLine: 'underline'} : {textDecorationLine: 'none'}">Luo käyttäjä</router-link>
-            <router-link to="/myinformation" v-if="!isNotSigned()" :style="this.$route.fullPath === '/myinformation' ? {textDecorationLine: 'underline'} : {textDecorationLine: 'none'}">Minun tietoni</router-link>
+            <router-link to="/" v-if="!isNotSigned()" :class="textStyling('/')">Postaukset</router-link>
+            <router-link to="/createpost" v-if="!isNotSigned()" :class="textStyling('/createpost')">Luo postaus</router-link>
+            <router-link to="/login" v-if="isNotSigned()" :class="textStyling('/login')">Kirjaudu</router-link>
+            <router-link to="/signup" v-if="isNotSigned()" :class="textStyling('/signup')">Luo käyttäjä</router-link>
+            <router-link to="/myinformation" v-if="!isNotSigned()" :class="textStyling('/myinformation')">Minun tietoni</router-link>
+            <router-link to="/myposts" v-if="!isNotSigned()" :class="textStyling('/myposts')">Minun postaukseni</router-link>
           </div>
         <router-view />
       </div>
@@ -25,6 +26,9 @@ export default {
     },
     isNotSigned() {
       return !localStorage.getItem('user')
+    },
+    textStyling(path) {
+      return this.$route.fullPath === path ? "underline" : "noline"
     }
   }
 }
@@ -32,6 +36,13 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+
+    .underline {
+      text-decoration-line: underline;
+    }
+    .noline {
+      text-decoration-line: none;
+    }
     .main-container {
         display: flex;
         justify-content: center;
@@ -47,7 +58,6 @@ export default {
     }
     .container * {
         color: black;
-        text-decoration-line: none;
     }
     .links {
         display: flex;

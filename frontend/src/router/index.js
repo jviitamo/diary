@@ -1,9 +1,10 @@
 import { createWebHistory, createRouter } from 'vue-router'
-import CreatePost from '../components/CreatePost.vue'
-import Posts from '../components/Posts.vue'
-import Login from '../components/Login.vue'
-import SignUp from '../components/SignUp.vue'
-import MyInformation from '../components/MyInformation.vue'
+import CreatePost from '../components/Posts/CreatePost.vue'
+import Posts from '../components/Posts/Posts.vue'
+import Login from '../components/User/Login.vue'
+import SignUp from '../components/User/SignUp.vue'
+import MyInformation from '../components/User/MyInformation.vue'
+import MyPosts from '../components/Posts/MyPosts.vue'
 
 
 // 2. Define some routes
@@ -34,6 +35,11 @@ const routes = [
       path: '/myinformation', 
       name: 'Minun tietoni',
       component: MyInformation 
+    },
+    { 
+      path: '/myposts', 
+      name: 'Minun postaukseni',
+      component: MyPosts 
     }
 ]
 

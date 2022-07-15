@@ -1,7 +1,11 @@
 <template>
   <div class="my-information">
         <div v-if="user !== null">
-            <p>Käyttänimi: {{ user.username }}</p>
+            <div>
+                <p>Käyttänimi: {{ user.username }}</p>
+                <p v-if="user.location !== null">Sijainti: {{ user.location }}</p>
+                <p v-else>Sinulle ei ole määritetty sijaintia</p>
+            </div>
             <p>Vaihda salasana:</p>
             <input type="password" v-model="old_password" placeholder="Vanha salasana"><br>
             <input type="password" v-model="new_password" placeholder="Uusi salasana"><br>
@@ -16,7 +20,7 @@
 /* eslint-disable */
 
 import axios from 'axios'
-import authHeader from '../helpers/auth'
+import authHeader from '@/helpers/auth';
 
 export default {
     name: "MyInformation",
@@ -62,7 +66,7 @@ export default {
         const response = await axios.get(`${process.env.VUE_APP_API_URL}/users/user`, { headers: authHeader() })
         const user = await response.data
         this.user = user
-        console.log(this.user.username)
+        console.log(this.user)
     }
 }
 </script>

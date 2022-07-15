@@ -1,6 +1,7 @@
 <template>
   <div class="posts">
     <Overlay v-for="post in posts" :key="post.id" :name="post.name" :publisher="post.publisher" :content="post.content" :photo="post.photo"/>
+    <p v-if="posts.length === 0">Sinulla ei ole postauksia</p>
   </div>
 </template>
 
@@ -12,14 +13,14 @@ import Overlay from './Overlay.vue'
 import authHeader from '@/helpers/auth';
 
 export default {
-    name: "Posts",
+    name: "MyPosts",
     data() {
         return {
             posts: []
         };
     },
     created() {
-        axios.get(`${process.env.VUE_APP_API_URL}/posts/all`, { headers: authHeader() })
+        axios.get(`${process.env.VUE_APP_API_URL}/posts/my-posts`, { headers: authHeader() })
             .then(response => {
               this.posts = response.data
               console.log(response.data)
