@@ -49,7 +49,6 @@ export default {
                         "new_password": new_password
                     }
                 })
-                    console.log(response)
                     this.showMessage = 'Salasana vaihdettu onnistuneesti'
                 } catch(error) {
                     this.showMessage = 'Salasana ei täsmää'
@@ -66,7 +65,6 @@ export default {
         const response = await axios.get(`${process.env.VUE_APP_API_URL}/users/user`, { headers: authHeader() })
         const user = await response.data
         this.user = user
-        console.log(this.user)
     }
 }
 </script>

@@ -5,6 +5,7 @@ import Login from '../components/User/Login.vue'
 import SignUp from '../components/User/SignUp.vue'
 import MyInformation from '../components/User/MyInformation.vue'
 import MyPosts from '../components/Posts/MyPosts.vue'
+import ChangeLocation from '../components/User/ChangeLocation.vue'
 
 
 // 2. Define some routes
@@ -40,6 +41,11 @@ const routes = [
       path: '/myposts', 
       name: 'Minun postaukseni',
       component: MyPosts 
+    },
+    { 
+      path: '/changelocation', 
+      name: 'Vaihda sijaintia',
+      component: ChangeLocation 
     }
 ]
 

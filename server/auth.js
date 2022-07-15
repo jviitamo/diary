@@ -9,6 +9,18 @@ const { Pool } = require("pg");
 const middleware = require("./middleware")
 
 
+router.post("/changelocation", async (req, res) => {
+  const pool = new Pool(credentials);
+  try {
+      const response = await pool.query("UPDATE users SET location=$1 WHERE username=$2", [req.body.location, req.body.username]) 
+      await pool.end();
+      res.json(response)
+  } catch (error) {
+      res.status(400).json({ error });
+  }
+});
+
+
 router.post("/signup", async (req, res) => {
     const pool = new Pool(credentials);
     try {
@@ -80,4 +92,16 @@ router.post('/newpassword', middleware, async (req, res, next) => {
       next(err);
   }
   });
+
+  router.get('/nolocation', middleware, async (req, res, next) => {
+    try {
+      const pool = new Pool(credentials);
+      const user = await pool.query("SELECT * FROM users WHERE location IS NULL");
+      await pool.end();
+      res.json(user.rows);
+    } catch (err) {
+        next(err);
+    }
+    });
+
 module.exports = router;

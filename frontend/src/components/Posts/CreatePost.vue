@@ -84,7 +84,6 @@ export default {
           this.showMessage = "Postaus lähetetty onnistuneesti!"
         } catch (error) {
           this.showMessage = error
-          console.log(error)
           this.formSent = false
         }
       }

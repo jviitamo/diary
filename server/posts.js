@@ -48,4 +48,12 @@ router.get('/my-posts', middleware, async (req, res, next) => {
   }
 });
 
+router.get('/locations', middleware, async (req, res, next) => {
+  try {
+      res.json(await posts.getLocations());
+  } catch (err) {
+      next(err);
+  }
+});
+
 module.exports = router

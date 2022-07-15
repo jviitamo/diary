@@ -39,8 +39,12 @@ export default {
                     "password": password
                 }
             })
-            const data = await response.data
             localStorage.setItem('user', JSON.stringify(response.data));
+            if (username == 'juhana') {
+              localStorage.setItem('isAdmin', true);
+            } else {
+              localStorage.setItem('isAdmin', false);
+            }
             this.$router.push("/")
             } catch (error) {
             this.showMessage = error.response.data

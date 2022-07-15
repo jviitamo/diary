@@ -33,10 +33,18 @@ async function insertPost(post, username, location) {
   return values;
 }
 
+async function getLocations() {
+  const pool = new Pool(credentials);
+  const posts = await pool.query("SELECT * FROM locations");
+  await pool.end();
+  return posts.rows;
+}
+
 
 module.exports = {
   getPosts,
   insertPost,
   getOwnPosts,
-  getUserLocation
+  getUserLocation,
+  getLocations
 }

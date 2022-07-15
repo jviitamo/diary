@@ -8,6 +8,7 @@
             <router-link to="/signup" v-if="isNotSigned()" :class="textStyling('/signup')">Luo käyttäjä</router-link>
             <router-link to="/myinformation" v-if="!isNotSigned()" :class="textStyling('/myinformation')">Minun tietoni</router-link>
             <router-link to="/myposts" v-if="!isNotSigned()" :class="textStyling('/myposts')">Minun postaukseni</router-link>
+            <router-link to="/changelocation" v-if="isAdmin()" :class="textStyling('/changelocation')">Käyttäjien sijainnin hallinta</router-link>
           </div>
         <router-view />
       </div>
@@ -29,7 +30,10 @@ export default {
     },
     textStyling(path) {
       return this.$route.fullPath === path ? "underline" : "noline"
-    }
+    },
+    isAdmin() {
+      return localStorage.getItem('isAdmin') == true
+    },
   }
 }
 </script>
