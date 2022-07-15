@@ -1,4 +1,5 @@
 <template>
+    <p>Anna uusille käyttäjille sijainti</p>
     <form>
         <select v-model="username" name="Kayttaja">
             <option value="" selected hidden disabled>Valitse käyttäjä</option>
@@ -8,7 +9,13 @@
             <option value="" selected hidden disabled>Valitse sijainti</option>
             <option class="option" v-for="location in locations" :value="location"  :key="location">{{ location }}</option>
         </select>
-      <button @click.prevent="SignUp(this.username, this.location)">Vaihda sijaintia</button>
+      <button @click.prevent="changeLocation(this.username, this.location)">Vaihda sijaintia</button>
+    </form>
+    <p>Lisää uusi sijainti</p>
+    <form>
+      <input type="text" v-model="locationName" placeholder="Sijainnin nimi"><br>
+      <input type="text" v-model="locationAddress" placeholder="Sijainnin osoite"><br>
+      <button @click.prevent="addLocation(this.locationName, this.locationAddress)">Luo sijainti</button>
     </form>
     <div :class="this.formSent ? 'success' : 'failure'">
       <p>{{ this.showMessage }}</p>
@@ -22,7 +29,7 @@ import authHeader from '@/helpers/auth';
 
 /* eslint-disable */
 export default {
-  name: 'ChangeLocation',
+  name: 'ControlPanel',
   data() {
     return {
         username: '',
@@ -30,11 +37,13 @@ export default {
         usernames: [],
         locations: [],
         formSent: false,
-        showMessage: "",
+        showMessage: '',
+        locationAddress: '',
+        locationName: ''
     }
   },
   methods: {
-    async SignUp(username, location) {
+    async changeLocation(username, location) {
       if (username === "" || location === "") {
         this.formSent = false
         this.showMessage = "Täytäthän kaikki kentät"
@@ -42,16 +51,45 @@ export default {
             try {
               await axios({
                   method: 'post',
-                  url: `${process.env.VUE_APP_API_URL}/users/changelocation`,
+                  url: `${process.env.VUE_APP_API_URL}/locations/changelocation`,
                   data: {
                       "username": username, 
                       "location": location
-                  }
+                  },
+                  headers: authHeader()
               })
               this.formSent = true
               this.username = ""
               this.location = ""
               this.showMessage = "Vaihdoit onnistuneesti käyttäjän sijaintia!"
+            } catch (error) {
+              this.showMessage = error.response.data
+              this.formSent = false
+            }
+      }
+      setTimeout(() => {
+            this.showMessage = ""
+        }, 5000)
+    },
+    async addLocation(locationName, locationAddress) {
+      if (locationName === "" || locationAddress === "") {
+        this.formSent = false
+        this.showMessage = "Täytäthän kaikki kentät"
+      } else {
+            try {
+              await axios({
+                  method: 'post',
+                  url: `${process.env.VUE_APP_API_URL}/locations/addlocation`,
+                  data: {
+                      "name": locationName, 
+                      "address": locationAddress
+                  },
+                  headers: authHeader()
+              })
+              this.formSent = true
+              this.username = ""
+              this.location = ""
+              this.showMessage = "Lisäsit onnistuneesti uuden sijainnin!"
             } catch (error) {
               this.showMessage = error.response.data
               this.formSent = false

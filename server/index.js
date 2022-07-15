@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require("cors");
 const UserRouter = require("./auth")
 const PostRouter = require("./posts")
+const LocationRouter = require("./location")
 const app = express();
 const port = process.env.PORT;
 
@@ -10,6 +11,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cors());
 app.use("/users", UserRouter) 
 app.use("/posts", PostRouter)
+app.use("/locations", LocationRouter)
 
 
 app.get('/', (req, res) => {

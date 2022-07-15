@@ -53,7 +53,6 @@ export default {
   data() {
     return {
       Popup: false,
-      currentLocation: 'Postaukset',
       lockedRoutes: [],
       publicRoutes: [],
       adminRoutes: []
@@ -162,7 +161,6 @@ export default {
     }
   }
   @media screen and (max-width: 600px) {
-
     .showMobileMenu {
       display: block;
     }
