@@ -2,12 +2,12 @@
   <div class="main-container">
       <div class="container">
           <div class="links">
-            <router-link to="/" v-if="!isNotSigned()" :class="textStyling('/')">Postaukset</router-link>
-            <router-link to="/createpost" v-if="!isNotSigned()" :class="textStyling('/createpost')">Luo postaus</router-link>
-            <router-link to="/login" v-if="isNotSigned()" :class="textStyling('/login')">Kirjaudu</router-link>
-            <router-link to="/signup" v-if="isNotSigned()" :class="textStyling('/signup')">Luo käyttäjä</router-link>
-            <router-link to="/myinformation" v-if="!isNotSigned()" :class="textStyling('/myinformation')">Minun tietoni</router-link>
-            <router-link to="/myposts" v-if="!isNotSigned()" :class="textStyling('/myposts')">Minun postaukseni</router-link>
+            <router-link to="/" v-if="isSigned()" :class="textStyling('/')">Postaukset</router-link>
+            <router-link to="/createpost" v-if="isSigned()" :class="textStyling('/createpost')">Luo postaus</router-link>
+            <router-link to="/login" v-if="!isSigned()" :class="textStyling('/login')">Kirjaudu</router-link>
+            <router-link to="/signup" v-if="!isSigned()" :class="textStyling('/signup')">Luo käyttäjä</router-link>
+            <router-link to="/myinformation" v-if="isSigned()" :class="textStyling('/myinformation')">Minun tietoni</router-link>
+            <router-link to="/myposts" v-if="isSigned()" :class="textStyling('/myposts')">Minun postaukseni</router-link>
             <router-link to="/changelocation" v-if="isAdmin()" :class="textStyling('/changelocation')">Käyttäjien sijainnin hallinta</router-link>
           </div>
         <router-view />
@@ -21,20 +21,15 @@
 export default {
   name: 'Home',
   methods: {
-    SignOut() {
-      localStorage.removeItem('user');
-      localStorage.setItem('isAdmin', false);
-      this.$router.push("/login")
+    isAdmin() {
+      return localStorage.getItem('admin')
     },
-    isNotSigned() {
-      return !localStorage.getItem('user')
+    isSigned() {
+      return localStorage.getItem('user')
     },
     textStyling(path) {
       return this.$route.fullPath === path ? "underline" : "noline"
-    },
-    isAdmin() {
-      return localStorage.getItem('isAdmin') === 'true'
-    },
+    }
   }
 }
 </script>

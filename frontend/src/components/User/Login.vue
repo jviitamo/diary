@@ -41,9 +41,7 @@ export default {
             })
             localStorage.setItem('user', JSON.stringify(response.data));
             if (username == 'juhana') {
-              localStorage.setItem('isAdmin', true);
-            } else {
-              localStorage.setItem('isAdmin', false);
+              localStorage.setItem('admin', JSON.stringify(response.data));
             }
             this.$router.push("/")
             } catch (error) {

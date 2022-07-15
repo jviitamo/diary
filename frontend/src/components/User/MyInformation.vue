@@ -35,6 +35,7 @@ export default {
     methods: {
         SignOut() {
             localStorage.removeItem('user');
+            localStorage.removeItem('admin');
             this.$router.push("/login")
         },
         async ChangePassword(old_password, new_password) {
