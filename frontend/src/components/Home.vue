@@ -23,6 +23,7 @@ export default {
   methods: {
     SignOut() {
       localStorage.removeItem('user');
+      localStorage.setItem('isAdmin', false);
       this.$router.push("/login")
     },
     isNotSigned() {
@@ -32,7 +33,7 @@ export default {
       return this.$route.fullPath === path ? "underline" : "noline"
     },
     isAdmin() {
-      return localStorage.getItem('isAdmin') == true
+      return localStorage.getItem('isAdmin') === 'true'
     },
   }
 }
