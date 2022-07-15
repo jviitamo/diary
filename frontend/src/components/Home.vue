@@ -2,26 +2,14 @@
   <div class="main-container">
       <div class="container">
           <div class="links">
-            <div @click="showPopup()" class="showMobileMenu">{{ currentLocation }}</div>
+            <div @click="showPopup()" class="showMobileMenu">{{ $route.name }}</div>
             <div class="links-desktop">
-              <router-link to="/" v-if="isSigned()" :class="textStyling('/')">Postaukset</router-link>
-              <router-link to="/createpost" v-if="isSigned()" :class="textStyling('/createpost')">Luo</router-link>
-              <router-link to="/login" v-if="!isSigned()" :class="textStyling('/login')">Kirjaudu</router-link>
-              <router-link to="/signup" v-if="!isSigned()" :class="textStyling('/signup')">Luo käyttäjä</router-link>
-              <router-link to="/myinformation" v-if="isSigned()" :class="textStyling('/myinformation')">Tietoni</router-link>
-              <router-link to="/myposts" v-if="isSigned()" :class="textStyling('/myposts')">Postaukseni</router-link>
-              <router-link to="/changelocation" v-if="isAdmin()" :class="textStyling('/changelocation')">Hallinta</router-link>
+                <router-link v-for="route in getAvailableRoutes()" :key="route.name" :to="route.path" :class="textStyling(route.path)">{{ route.name }}</router-link>
             </div>
           </div>
           <div class="links-mobile" :style="[!this.Popup ? 'display: none' : '']">
             <div class="overlay">
-              <router-link to="/" @click="closePopUp('Postaukset')" v-if="isSigned()" :class="textStyling('/')">Postaukset</router-link>
-              <router-link to="/createpost" @click="closePopUp('Luo')" v-if="isSigned()" :class="textStyling('/createpost')">Luo</router-link>
-              <router-link to="/login" @click="closePopUp('Kirjaudu')" v-if="!isSigned()" :class="textStyling('/login')">Kirjaudu</router-link>
-              <router-link to="/signup" @click="closePopUp('Luo käyttäjä')" v-if="!isSigned()" :class="textStyling('/signup')">Luo käyttäjä</router-link>
-              <router-link to="/myinformation" @click="closePopUp('Tietoni')"  v-if="isSigned()" :class="textStyling('/myinformation')">Tietoni</router-link>
-              <router-link to="/myposts" @click="closePopUp('Postaukseni')" v-if="isSigned()" :class="textStyling('/myposts')">Postaukseni</router-link>
-              <router-link to="/changelocation" @click="closePopUp('Hallinta')" v-if="isAdmin()" :class="textStyling('/changelocation')">Hallinta</router-link>
+              <router-link v-for="route in getAvailableRoutes()" :key="route.name" @click="showPopup()" :to="route.path" :class="textStyling(route.path)">{{ route.name }}</router-link>
             </div>
           </div>
         <router-view />
@@ -30,6 +18,7 @@
 </template>
 
 <script>
+
 
 /* eslint-disable */
 export default {
@@ -45,17 +34,29 @@ export default {
       return this.$route.fullPath === path ? "underline" : "noline"
     },
     showPopup() {
-      this.Popup = true
+      this.Popup = !this.Popup
     },
-    closePopUp(location) {
-      this.Popup = false
-      this.currentLocation = location
+    getAvailableRoutes() {
+      const getAvailable = []
+      const routes = this.$router.options.routes
+      if (this.isAdmin()) {
+        routes.filter(route => route.type === 'admin').map(route => getAvailable.push(route))
+      }
+      if (this.isSigned()) {
+        routes.filter(route => route.type === 'private').map(route => getAvailable.push(route))
+      } else {
+        this.publicRoutes = routes.filter(route => route.type === 'public').map(route => getAvailable.push(route))
+      }
+      return getAvailable
     }
   },
   data() {
     return {
       Popup: false,
-      currentLocation: 'Postaukset'
+      currentLocation: 'Postaukset',
+      lockedRoutes: [],
+      publicRoutes: [],
+      adminRoutes: []
     }
   }
 }

@@ -13,39 +13,46 @@ import ChangeLocation from '../components/User/ChangeLocation.vue'
 // We'll talk about nested routes later.
 const routes = [
     {
-        path: '/',
-        name: 'Posts',
-        component: Posts
+      path: '/',
+      name: 'Postaukset',
+      component: Posts,
+      type: 'private'
     },
     { 
       path: '/createpost', 
-      name: 'Create Post',
-      component: CreatePost 
+      name: 'Luo',
+      component: CreatePost,
+      type: 'private' 
     },
     { 
       path: '/login', 
       name: 'Kirjaudu',
-      component: Login 
+      component: Login,
+      type: 'public' 
     },
     { 
       path: '/signup', 
       name: 'Luo käyttäjä',
-      component: SignUp 
+      component: SignUp,
+      type: 'public' 
     },
     { 
       path: '/myinformation', 
-      name: 'Minun tietoni',
-      component: MyInformation 
+      name: 'Tietoni',
+      component: MyInformation,
+      type: 'private' 
     },
     { 
       path: '/myposts', 
-      name: 'Minun postaukseni',
-      component: MyPosts 
+      name: 'Postaukseni',
+      component: MyPosts,
+      type: 'private' 
     },
     { 
       path: '/changelocation', 
-      name: 'Vaihda sijaintia',
-      component: ChangeLocation 
+      name: 'Hallinta',
+      component: ChangeLocation,
+      type: 'admin' 
     }
 ]
 
