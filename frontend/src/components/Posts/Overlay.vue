@@ -74,7 +74,6 @@ export default {
     }
     .overlay {
         background-color: white;
-        opacity: 1 !important;
         height: 90%;
         width: 90%;
         border-radius: 2em;

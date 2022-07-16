@@ -1,18 +1,18 @@
 <template>
   <div class="main-container">
       <div class="container">
-          <div class="links">
-            <div @click="showPopup()" class="showMobileMenu">{{ $route.name }}</div>
-            <div class="links-desktop">
-                <router-link v-for="route in getAvailableRoutes()" :key="route.name" :to="route.path" :class="textStyling(route.path)">{{ route.name }}</router-link>
-            </div>
-          </div>
-          <div class="links-mobile" :style="[!this.Popup ? 'display: none' : '']">
-            <div class="overlay">
+        <div class="links">
+          <router-link class="links-desktop" v-for="route in getAvailableRoutes()" :key="route.name" :to="route.path" :class="textStyling(route.path)">{{ route.name }}</router-link>
+          <div class="links-mobile" @click="showPopup()">{{ $route.name }}</div>
+        </div>
+        <div class="overlay" :style="[!this.Popup ? 'display: none' : '']">
+            <div class="overlay-content">
               <router-link v-for="route in getAvailableRoutes()" :key="route.name" @click="showPopup()" :to="route.path" :class="textStyling(route.path)">{{ route.name }}</router-link>
             </div>
-          </div>
-        <router-view />
+        </div>
+        <div class="main-content">
+          <router-view />
+        </div>
       </div>
   </div>
 </template>
@@ -71,73 +71,73 @@ export default {
       text-decoration-line: none;
     }
     .main-container {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        width: 100vw;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100vw;
+      height: 100vh;
     }
     .container {
-        background-color: white;
-        width: 80vw;
-        height: 80vh;
-        border-radius: 10px;
+      background-color: white;
+      width: 90%;
+      height: 90%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      border-radius: 2em;
+
     }
     .container * {
         color: black;
     }
     .links {
-        border-radius: 2em;
-        font-size: 16px;
-        font-family: 'Montserrat';
-        background-color: #D3D3D3;
-        width: 75%;
-        margin: 50px auto;
+      width: 75%;
+      height: 10%;
+      margin: 20px auto;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #D3D3D3;
+      border-radius: 2em;
     }
-    .links-desktop {
-        display: flex;
-        justify-content: space-evenly;
-        width: 100%;
-        padding: 20px 0;
-        margin: 0;
+    .main-content {
+      height: 90%;
+      max-height: 700px;
+      width: 100%;
     }
-
+    .links * {
+      display: flex;
+      justify-content: space-evenly;
+      width: 90%;
+      font-size: 16px;
+      font-family: 'Montserrat';
+    }
     .links-mobile {
+      display: none;
+      font-size: 24px;
+    }
+    .overlay {
         position: fixed;
         top: 0;
         left: 0;
         width: 100vw;
         height: 100vh;
-        background-color: black;
         z-index: 1;
-        background-color:white;
-        display: flex;
-        justify-content: space-around;
-        align-items: center;
-        font-family: 'Montserrat';
-        font-size: 24px;
     }
-    .links-mobile * {
-      padding: 40px;
-    }
-    .showMobileMenu {
-      display: none;
-      text-align: center;
-      padding: 20px 0;
-      cursor: pointer;
-    }
-    .showMobileMenu:hover {
-      text-decoration-line: underline; 
-    }
-    .overlay {
+    .overlay-content {
         background-color: white;
         height: 100%;
         width: 100%;
-        border-radius: 2em;
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
+        font-family: 'Montserrat';
+        font-size: 24px;
+    }
+    .overlay-content * {
+      padding: 40px;
     }
     .closebutton {
         position: relative;
@@ -147,30 +147,13 @@ export default {
         cursor: pointer;
     }
 
-
-  @media screen and (max-width: 800px) {
-    .container {
-      width: 90vw;
-      height: 90vh
-    }
-    .links {
-        width: 80%;
-    }
-    .links-desktop > div {
-      cursor: pointer;
-    }
-  }
   @media screen and (max-width: 600px) {
-    .showMobileMenu {
-      display: block;
-    }
    .links-desktop {
      display: none;
    }
    .links-mobile {
      display: flex;
    }
-
   }
 
 

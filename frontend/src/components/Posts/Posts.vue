@@ -1,7 +1,10 @@
 <template>
-  <div class="posts">
-    <Overlay v-for="post in posts" :key="post.id" :name="post.name" :publisher="post.publisher" :content="post.content" :photo="post.photo"/>
-    <p v-if="posts.length === 0">Sijainnillasi ei ole postauksia</p>
+  <div class="post-container">
+    <p>Alueesi postaukset</p>
+    <div class="posts">
+      <Overlay v-for="post in posts" :key="post.id" :name="post.name" :publisher="post.publisher" :content="post.content" :photo="post.photo"/>
+      <p v-if="posts.length === 0">Sijainnillasi ei ole postauksia</p>
+    </div>
   </div>
 </template>
 
@@ -32,21 +35,35 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 
-.posts {
-  background-color: white;
-  display: block;
+p {
+  font-family: 'Montserrat';
+  margin: 0;
+  padding: 0;
+  height: 10%;
+  font-size: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.post-container {
   width: 70%;
-  margin: 50px auto;
-  height: 55vh;
+  margin: 0 auto;
+  padding: 0;
+  height: 100%;
+  background-color: white;
+  font-family: 'Montserrat';
+}
+.posts {
+  height: 85%;
+  display: block;
   border-radius: 10px;
   overflow-y: scroll;
+  margin: 0;
 }
 @media screen and (max-width: 600px) {
     .posts-container {
       width: 90%;
     }
-    .posts {
-      height: 65vh;
-    }
+  
   }
 </style>

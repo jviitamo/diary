@@ -1,13 +1,15 @@
 <template>
-    <form>
-      <input type="text" v-model="name" placeholder="Postauksen nimi"><br>
-      <input type="text" v-model="publisher" placeholder="Julkaisijan nimi"><br>
-      <textarea v-model="content" placeholder="Sisältö" rows="7" cols="70"></textarea>
-      <input type="file" id="file" v-on:change="onFileChange" name="photo" accept="image/png, image/jpeg">
-      <button @click.prevent="sendPost(this.name, this.publisher, this.content, this.file)">Lähetä postaus</button>
-    </form>
-    <div :class="this.formSent ? 'success' : 'failure'">
-      <p>{{ this.showMessage }}</p>
+    <div class="form-container">
+      <form>
+        <input type="text" v-model="name" placeholder="Postauksen nimi">
+        <input type="text" v-model="publisher" placeholder="Julkaisijan nimi">
+        <textarea v-model="content" placeholder="Sisältö" rows="7" cols="70"></textarea>
+        <input type="file" id="file" v-on:change="onFileChange" name="photo" accept="image/png, image/jpeg">
+        <button @click.prevent="sendPost(this.name, this.publisher, this.content, this.file)">Lähetä postaus</button>
+      </form>
+      <div :class="this.formSent ? 'success' : 'failure'">
+        <p>{{ this.showMessage }}</p>
+      </div>
     </div>
 </template>
 
@@ -102,22 +104,30 @@ export default {
     color: green;
   }
   .failure {
-    color: black;
+    color: red;
+  }
+  .form-container {
+    width: 100%;
+    height: 100%;
+    font-family: 'Montserrat';
+  }
+  .form-container > div {
+    height: 10%;
   }
   form {
+    height: 80%;
     width: 100%;
-    font-family: 'Montserrat';
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content:flex-start;
   }
   form *{
     width: 70%;
     box-sizing: border-box;
-    margin: 5px;
     font-size: 18px;
   }
-  form > div {
-    text-align: center;
-    padding-bottom: 50px;
-  }
+
   button {
     padding: 1em;
     border-radius: 10px;
@@ -132,12 +142,10 @@ export default {
   input, textarea {
     border-radius: 10px;
     padding: 20px;
+    margin: 10px;
     border: 1px solid black;
     font-family: 'Montserrat';
     font-size: 16px;
-  }
-  h1 {
-    padding: 30px;
   }
 
 </style>
