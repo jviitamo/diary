@@ -1,5 +1,5 @@
 <template>
-    <p @click="changeShowPopup()">{{ title }}<i :class="this.showPopup ? 'arrow up' : 'arrow down'"></i></p>
+    <p @click="changeShowPopup()">{{ title + '  ' }}<i :class="this.showPopup ? 'arrow up' : 'arrow down'"></i></p>
     <slot v-if="showPopup"></slot>
 </template>
 
@@ -26,6 +26,15 @@ export default {
 </script>
 
 <style scoped>
+
+p {
+  cursor: pointer;
+}
+
+p:hover {
+  opacity: 0.7;
+}
+
 .arrow {
   border: solid black;
   border-width: 0 3px 3px 0;
