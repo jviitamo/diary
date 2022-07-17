@@ -43,7 +43,7 @@ export default {
             if (username == 'juhana') {
               localStorage.setItem('admin', JSON.stringify(response.data));
             }
-            this.$router.push("/")
+            this.$router.push("/areaposts")
             } catch (error) {
             this.showMessage = error.response.data
             this.formSent = false
