@@ -1,23 +1,21 @@
 <template>
-  <div class="main-container">
-      <div class="container">
-        <Navbar />
-        <div class="main-content">
-          <router-view />
+    <div class="links">
+        <router-link class="links-desktop" v-for="route in getAvailableRoutes()" :key="route.name" :to="route.path" :class="textStyling(route.path)">{{ route.name }}</router-link>
+        <div class="links-mobile" @click="showPopup()">{{ $route.name }}</div>
+    </div>
+    <div class="overlay" :style="[!this.Popup ? 'display: none' : '']">
+        <div class="overlay-content">
+            <router-link v-for="route in getAvailableRoutes()" :key="route.name" @click="showPopup()" :to="route.path" :class="textStyling(route.path)">{{ route.name }}</router-link>
         </div>
-      </div>
-  </div>
+    </div>
 </template>
+
 <script>
 
-import Navbar from './Navbar.vue'
 
 /* eslint-disable */
 export default {
-  name: 'Home',
-  components: {
-    Navbar
-  },
+  name: 'Navbar',
   methods: {
     isAdmin() {
       return localStorage.getItem('admin')
@@ -60,57 +58,35 @@ export default {
 <style scoped>
 
     .underline {
-      text-decoration-line: underline;
+        text-decoration-line: underline;
     }
     .noline {
-      text-decoration-line: none;
-    }
-    .main-container {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      width: 100vw;
-      height: 100vh;
-    }
-    .container {
-      background-color: white;
-      width: 90%;
-      height: 90%;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      border-radius: 2em;
-
-    }
-    .container * {
-        color: black;
+        text-decoration-line: none;
     }
     .links {
-      width: 75%;
-      height: 10%;
-      margin: 20px auto;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background-color: #D3D3D3;
-      border-radius: 2em;
-    }
-    .main-content {
-      height: 90%;
-      max-height: 700px;
-      width: 100%;
+        width: 75%;
+        height: 10%;
+        margin: 20px auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #D3D3D3;
+        border-radius: 2em;
     }
     .links * {
       display: flex;
       justify-content: space-evenly;
       width: 90%;
-      font-size: 16px;
       font-family: 'Montserrat';
     }
     .links-mobile {
-      display: none;
-      font-size: 24px;
+        display: none;
+        font-size: 24px;
+        color: black;
+    }
+    .links-desktop {
+        color: black;
+        font-size: 16px;
     }
     .overlay {
         position: fixed;

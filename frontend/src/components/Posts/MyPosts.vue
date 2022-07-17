@@ -1,11 +1,11 @@
 <template>
-  <div class="post-container">
-    <p>Sinun postauksesi</p>
-    <div class="posts">
-      <Overlay v-for="post in posts" :key="post.id" :name="post.name" :publisher="post.publisher" :content="post.content" :photo="post.photo"/>
-        <p v-if="posts.length === 0">Sinulla ei ole postauksia</p>
+    <div class="post-container">
+        <p>Sinun postauksesi</p>
+        <div class="posts">
+            <Overlay v-for="post in posts" :key="post.id" :name="post.name" :publisher="post.publisher" :content="post.content" :photo="post.photo"/>
+            <p v-if="posts.length === 0">Sinulla ei ole postauksia</p>
+        </div>
     </div>
-  </div>
 </template>
 
 <script>
