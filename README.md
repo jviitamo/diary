@@ -20,7 +20,9 @@
 - Frontend: Vue
 - Backend: NodeJS & Express
 - Database: PostreSQL
-- DevOps: Docker
+- DevOps: 
+    - Docker
+    - Github actions with Cypress tests and deployment to server 
 
 
 ## Features
