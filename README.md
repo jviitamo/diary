@@ -1,6 +1,6 @@
 # Digital Summer Cottage Diary / Digitaalinen mökkipäiväkirja
 > Designed to digitalize your summer cottage diary.
-> Live demo [_here_](https://paivakirja.juhanaviitamo.fi/). <!-- If you have the project hosted somewhere, include the link here. -->
+> Live demo [_here_](https://paivakirja.juhanaviitamo.fi/).
 
 ## Table of Contents
 * [General Info](#general-information)
@@ -15,7 +15,6 @@
 - Tries to solve the pain of writing physically on diary
 - Makes it easy make posts and read through old ones 
 - Keeps posts in a safe place without the fear of losing physical diary
-
 
 ## Technologies Used
 - Frontend: Vue
@@ -57,4 +56,8 @@ Currently project runs frontend on port 8081.
 
 ## Room for Improvement
 - Improve user interface
+- Enable admins of each location to add people to their own location
+- Enable adding users to multiple locations
+- Add localization
+- Add Progressive web application ability
 
