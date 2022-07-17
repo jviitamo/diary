@@ -58,8 +58,14 @@ Currently project runs frontend on port 8081.
 
 ## Room for Improvement
 - Improve user interface
-- Enable admins of each location to add people to their own location
+- Enable admins of each location to add people to their own location instead of just the global admin
 - Enable adding users to multiple locations
 - Add localization
 - Add Progressive web application ability
-
+- Add email features: 
+    - user email is required
+    - User can be notified when new post arrives to user's location
+    - Admin is notified when new user is added 
+- Add linting to the project
+- Make server to websocket
+- Refractor frontend api calls to hepler file
