@@ -1,11 +1,11 @@
-name: Deployment Workflow
+name: Main Workflow
 on:
   push:
     branches: [ main ]
 
 jobs:
   test:
-    name: Cypress-run
+    name: Test
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
