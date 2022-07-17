@@ -4,9 +4,26 @@ on:
     branches: [ main ]
 
 jobs:
-  job_one:
+  test:
+    name: Cypress-run
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      # Install NPM dependencies, cache them correctly
+      # and run all Cypress tests
+      - name: Cypress run
+        uses: cypress-io/github-action@v2
+        with:
+          working-directory: frontend
+          config-file: cypress.config.js
+          build: npm run build
+          start: npm run serve
+
+  deploy:
     name: Deploy
     runs-on: ubuntu-latest
+    needs: test
     steps:
     - name: testing ssh
       uses: appleboy/ssh-action@master
