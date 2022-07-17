@@ -27,6 +27,10 @@ export default {
             .then(response => {
               this.posts = response.data
             });
+        axios.get(`${process.env.VUE_APP_API_URL}/posts/my-posts`, { headers: authHeader() })
+            .then(response => {
+              this.posts = response.data
+            });
     },
     components: { Overlay }
 }

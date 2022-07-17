@@ -1,35 +1,71 @@
 <template>
-    <p>Anna uusille käyttäjille sijainti</p>
-    <form>
-        <select v-model="username" name="Kayttaja">
-            <option value="" selected hidden disabled>Valitse käyttäjä</option>
-            <option class="option" v-for="username in usernames" :value="username"  :key="username">{{ username }}</option>
-        </select>
-        <select v-model="location" name="Sijainti">
-            <option value="" selected hidden disabled>Valitse sijainti</option>
-            <option class="option" v-for="location in locations" :value="location"  :key="location">{{ location }}</option>
-        </select>
-      <button @click.prevent="changeLocation(this.username, this.location)">Vaihda sijaintia</button>
-    </form>
-    <p>Lisää uusi sijainti</p>
-    <form>
-      <input type="text" v-model="locationName" placeholder="Sijainnin nimi"><br>
-      <input type="text" v-model="locationAddress" placeholder="Sijainnin osoite"><br>
-      <button @click.prevent="addLocation(this.locationName, this.locationAddress)">Luo sijainti</button>
-    </form>
+  <div class="panel-container">
     <div :class="this.formSent ? 'success' : 'failure'">
       <p>{{ this.showMessage }}</p>
     </div>
+    <section class="content">
+      <Popup title="Anna uusille käyttäjille sijainti">
+        <form>
+          <select v-model="username" name="Kayttaja">
+              <option value="" selected hidden disabled>Valitse käyttäjä</option>
+              <option class="option" v-for="username in usernames" :value="username"  :key="username">{{ username }}</option>
+          </select>
+          <select v-model="location" name="Sijainti">
+              <option value="" selected hidden disabled>Valitse sijainti</option>
+              <option class="option" v-for="location in locations" :value="location"  :key="location">{{ location }}</option>
+          </select>
+          <button @click.prevent="changeLocation(this.username, this.location)">Vaihda sijaintia</button>
+        </form>
+      </Popup>
+      <Popup title="Lisää uusi sijainti">
+        <form>
+          <input type="text" v-model="locationName" placeholder="Sijainnin nimi"><br>
+          <input type="text" v-model="locationAddress" placeholder="Sijainnin osoite"><br>
+          <button @click.prevent="addLocation(this.locationName, this.locationAddress)">Luo sijainti</button>
+        </form>
+      </Popup>
+      <Popup title="Näytä kaikki käyttäjät">
+        <table>
+          <tr>
+            <td>Käyttäjänimi</td>
+            <td>Sijainti</td>
+          </tr>
+          <tr v-for="user in dataAllUsers" :key="user.username">
+            <td>{{ user.username }}</td>
+            <td>{{ user.location }}</td>
+          </tr>
+        </table>
+      </Popup>
+      <Popup title="Näytä kaikki sijainnit">
+        <table>
+          <tr>
+            <td>Sijainti</td>
+            <td>Osoite</td>
+            <td>Pääkäyttäjä</td>
+          </tr>
+          <tr v-for="location in dataAllLocations" :key="location.locationname">
+            <td>{{ location.locationname }}</td>
+            <td>{{ location.address }}</td>
+            <td>{{ location.locationadmin }}</td>
+          </tr>
+        </table>
+      </Popup>
+    </section>
+  </div>
 </template>
 
 <script>
 
 import axios from 'axios'
 import authHeader from '@/helpers/auth';
+import Popup from './Popup.vue'
 
 /* eslint-disable */
 export default {
   name: 'ControlPanel',
+  components: {
+    Popup
+  },
   data() {
     return {
         username: '',
@@ -39,7 +75,9 @@ export default {
         formSent: false,
         showMessage: '',
         locationAddress: '',
-        locationName: ''
+        locationName: '',
+        dataAllUsers: [],
+        dataAllLocations: []
     }
   },
   methods: {
@@ -108,25 +146,44 @@ export default {
     const responseUsers = await axios.get(`${process.env.VUE_APP_API_URL}/users/nolocation`, { headers: authHeader() })
     const dataUsers = await responseUsers.data
     this.usernames = dataUsers.map(user => user.username)
+
+    const responseAllUsers = await axios.get(`${process.env.VUE_APP_API_URL}/users/all`, { headers: authHeader() })
+    this.dataAllUsers = await responseAllUsers.data
+
+    const responseAllLocations = await axios.get(`${process.env.VUE_APP_API_URL}/locations/all`, { headers: authHeader() })
+    this.dataAllLocations = await responseAllLocations.data
     
   }
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 
+  .panel-container {
+    height: 100%;
+  }
+  .content {
+    height: 90%;
+    display: block;
+    overflow-y: scroll;
+  }
   .success {
     color: green;
+    height: 5%;
   }
   .failure {
     color: red;
+    height: 5%;
   }
   form {
     width: 100%;
     font-family: 'Montserrat';
   }
-  form *{
+  table {
+    width: 50%;
+    margin: 0 auto;
+  }
+  form *, table *{
     width: 70%;
     box-sizing: border-box;
     margin: 5px;
@@ -153,6 +210,10 @@ export default {
     border: 1px solid black;
     font-family: 'Montserrat';
     font-size: 16px;
+  }
+  td {
+    border-bottom: 1px solid black;
+    width: 20%;
   }
 
 </style>

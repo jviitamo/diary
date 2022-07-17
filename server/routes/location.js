@@ -7,6 +7,16 @@ const credentials = require("../helpers/credentials")
 const { Pool } = require("pg");
 const middleware = require("../helpers/middleware")
 
+router.get("/all", middleware, async (req, res) => {
+    const pool = new Pool(credentials);
+    try {
+        const locations = await pool.query("SELECT * FROM locations") 
+        await pool.end();
+        res.json(locations.rows)
+    } catch (error) {
+        res.status(400).json({ error });
+    }
+  });
 
 router.post("/addlocation",middleware, async (req, res) => {
   const pool = new Pool(credentials);

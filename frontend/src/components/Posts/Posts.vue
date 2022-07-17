@@ -1,6 +1,6 @@
 <template>
   <div class="post-container">
-    <p>Alueesi postaukset</p>
+    <p>Alueen {{ userLocation }} postaukset</p>
     <div class="posts">
       <Overlay v-for="post in posts" :key="post.id" :name="post.name" :publisher="post.publisher" :content="post.content" :photo="post.photo"/>
       <p v-if="posts.length === 0">Sijainnillasi ei ole postauksia</p>
@@ -19,14 +19,16 @@ export default {
     name: "Posts",
     data() {
         return {
-            posts: []
+            posts: [],
+            userLocation: ''
         };
     },
-    created() {
-        axios.get(`${process.env.VUE_APP_API_URL}/posts/all`, { headers: authHeader() })
-            .then(response => {
-              this.posts = response.data
-            });
+    async created() {
+        const response = await axios.get(`${process.env.VUE_APP_API_URL}/users/user`, { headers: authHeader() })
+        this.userLocation= await response.data.location
+
+        const postsResponse = await axios.get(`${process.env.VUE_APP_API_URL}/posts/all`, { headers: authHeader() })
+        this.posts = postsResponse.data
     },
     components: { Overlay }
 }

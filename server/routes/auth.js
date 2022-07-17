@@ -50,6 +50,17 @@ router.post("/login", async (req, res) => {
   }
 });
 
+router.get('/all', middleware, async (req, res, next) => {
+  try {
+    const pool = new Pool(credentials);
+    const user = await pool.query("SELECT * FROM users");
+    await pool.end();
+    res.json(user.rows);
+  } catch (err) {
+      next(err);
+  }
+  });
+
 router.get('/user', middleware, async (req, res, next) => {
   try {
     const pool = new Pool(credentials);

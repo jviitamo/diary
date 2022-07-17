@@ -98,7 +98,7 @@ export default {
         border-radius: 10px;
         width: 80%;
         max-width: 500px;
-        padding: 20px 0;
+        padding: 20px;
         margin-top: 10px;
         border: 1px solid black;
         font-family: 'Montserrat';
