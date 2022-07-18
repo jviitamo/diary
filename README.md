@@ -69,3 +69,5 @@ Currently project runs frontend on port 8081.
 - Add linting to the project
 - Make server to websocket
 - Refractor frontend api calls to hepler file
+- Making backend api rest compatible
+- Search filter to posts
