@@ -1,6 +1,6 @@
 import { createWebHistory, createRouter } from 'vue-router'
 import CreatePost from '../components/Posts/CreatePost.vue'
-import Posts from '../components/Posts/Posts.vue'
+import AreaPosts from '../components/Posts/AreaPosts.vue'
 import Login from '../components/User/Login.vue'
 import SignUp from '../components/User/SignUp.vue'
 import MyInformation from '../components/User/MyInformation.vue'
@@ -13,9 +13,9 @@ import ControlPanel from '../components/User/ControlPanel.vue'
 // We'll talk about nested routes later.
 const routes = [
     {
-      path: '/',
+      path: '/areaposts',
       name: 'Postaukset',
-      component: Posts,
+      component: AreaPosts,
       type: 'private'
     },
     { 

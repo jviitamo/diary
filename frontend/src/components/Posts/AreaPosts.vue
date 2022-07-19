@@ -1,11 +1,11 @@
 <template>
-    <div class="post-container">
-        <p>Sinun postauksesi</p>
-        <div class="posts">
-            <Overlay v-for="post in posts" :key="post.id" :name="post.name" :publisher="post.publisher" :content="post.content" :photo="post.photo"/>
-            <p v-if="posts.length === 0">Sinulla ei ole postauksia</p>
-        </div>
+  <div class="post-container">
+    <p>Alueen {{ userLocation }} postaukset</p>
+    <div class="posts">
+      <Overlay v-for="post in posts" :key="post.id" :name="post.name" :publisher="post.publisher" :content="post.content" :photo="post.photo"/>
+      <p v-if="posts.length === 0">Sijainnillasi ei ole postauksia</p>
     </div>
+  </div>
 </template>
 
 <script>
@@ -16,21 +16,19 @@ import Overlay from './Overlay.vue'
 import authHeader from '@/helpers/auth';
 
 export default {
-    name: "MyPosts",
+    name: "Posts",
     data() {
         return {
-            posts: []
+            posts: [],
+            userLocation: ''
         };
     },
-    created() {
-        axios.get(`${process.env.VUE_APP_API_URL}/posts/my-posts`, { headers: authHeader() })
-            .then(response => {
-              this.posts = response.data
-            });
-        axios.get(`${process.env.VUE_APP_API_URL}/posts/my-posts`, { headers: authHeader() })
-            .then(response => {
-              this.posts = response.data
-            });
+    async created() {
+        const response = await axios.get(`${process.env.VUE_APP_API_URL}/users/user`, { headers: authHeader() })
+        this.userLocation= await response.data.location
+
+        const postsResponse = await axios.get(`${process.env.VUE_APP_API_URL}/posts/all`, { headers: authHeader() })
+        this.posts = postsResponse.data
     },
     components: { Overlay }
 }
@@ -42,6 +40,7 @@ export default {
 p {
   font-family: 'Montserrat';
   margin: 0;
+  padding: 0;
   height: 10%;
   font-size: 24px;
   display: flex;
@@ -67,6 +66,6 @@ p {
     .posts-container {
       width: 90%;
     }
+  
   }
-
 </style>
