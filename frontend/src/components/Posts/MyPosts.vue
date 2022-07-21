@@ -23,11 +23,10 @@ export default {
         };
     },
     created() {
-        axios.get(`${process.env.VUE_APP_API_URL}/posts/my-posts`, { headers: authHeader() })
-            .then(response => {
-              this.posts = response.data
-            });
-        axios.get(`${process.env.VUE_APP_API_URL}/posts/my-posts`, { headers: authHeader() })
+        const user = JSON.parse(localStorage.getItem('user'))
+        axios.get(`${process.env.VUE_APP_API_URL}/posts/?username=${user.username}`, { 
+          headers: authHeader(),
+        })
             .then(response => {
               this.posts = response.data
             });

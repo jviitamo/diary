@@ -16,11 +16,10 @@ var storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 const router = Router(); 
 
-router.post('/new-post', middleware, async (req, res, next) => {
+router.post('/', middleware, async (req, res, next) => {
     try {
-      const location = await posts.getUserLocation(req.user)
-      if (location === null) res.json(400, {error: "Tarvitse sijainnin postauksia varten"})
-      else res.json(await posts.insertPost(req.body, req.user.username, location));
+      if (req.query.location === null) res.json(400, {error: "Tarvitse sijainnin postauksia varten"})
+      else res.json(await posts.insertPost(req.body, req.query));
     } catch (err) {
       next(err);
     }
@@ -32,28 +31,14 @@ const file = req.file;
 res.json({path: file.filename});
 });
 
-router.get('/all', middleware, async (req, res, next) => {
+router.get('/', middleware, async (req, res, next) => {
   try {
-      res.json(await posts.getPosts(req.user));
+      res.json(await posts.getPosts(req.query));
   } catch (err) {
       next(err);
   }
 });
 
-router.get('/my-posts', middleware, async (req, res, next) => {
-  try {
-      res.json(await posts.getOwnPosts(req.user));
-  } catch (err) {
-      next(err);
-  }
-});
 
-router.get('/locations', middleware, async (req, res, next) => {
-  try {
-      res.json(await posts.getLocations());
-  } catch (err) {
-      next(err);
-  }
-});
 
 module.exports = router

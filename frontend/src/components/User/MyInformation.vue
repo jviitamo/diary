@@ -69,9 +69,7 @@ export default {
         }
     },
     async created() {
-        const response = await axios.get(`${process.env.VUE_APP_API_URL}/users/user`, { headers: authHeader() })
-        const user = await response.data
-        this.user = user
+        this.user = JSON.parse(localStorage.getItem('user'))   
     }
 }
 </script>

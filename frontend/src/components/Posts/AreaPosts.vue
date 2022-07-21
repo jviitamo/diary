@@ -24,10 +24,9 @@ export default {
         };
     },
     async created() {
-        const response = await axios.get(`${process.env.VUE_APP_API_URL}/users/user`, { headers: authHeader() })
-        this.userLocation= await response.data.location
-
-        const postsResponse = await axios.get(`${process.env.VUE_APP_API_URL}/posts/all`, { headers: authHeader() })
+        const user = JSON.parse(localStorage.getItem('user'))
+        this.userLocation = user.location
+        const postsResponse = await axios.get(`${process.env.VUE_APP_API_URL}/posts/?location=${user.location}`, { headers: authHeader() })
         this.posts = postsResponse.data
     },
     components: { Overlay }

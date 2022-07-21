@@ -57,16 +57,20 @@ export default {
     },
     async sendPost(name, publisher, content, file) {
 
+      const user = JSON.parse(localStorage.getItem('user'))
+
       if (name === "" || content === "" || publisher === "" || file === null) {
         this.formSent = false
         this.showMessage = "Täytäthän kaikki kentät"
+      } else if (typeof user.location === "undefined") {
+          this.showMessage === "Tarvitset sijainnin lisätäksesi postauksen"
       } else {
         this.showMessage = "Ladataan tiedostoa..."
         const path = await this.sendFile(file)
         try {
           const response = await axios({
             method: 'post',
-            url: `${process.env.VUE_APP_API_URL}/posts/new-post`,
+            url: `${process.env.VUE_APP_API_URL}/posts/?location=${user.location}&username=${user.username}`,
             data: {
                 "name": name, 
                 "publisher": publisher, 

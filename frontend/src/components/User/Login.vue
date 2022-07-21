@@ -39,10 +39,8 @@ export default {
                     "password": password
                 }
             })
+            console.log(response.data)
             localStorage.setItem('user', JSON.stringify(response.data));
-            if (username == 'juhana') {
-              localStorage.setItem('admin', JSON.stringify(response.data));
-            }
             this.$router.push("/areaposts")
             } catch (error) {
             this.showMessage = error.response.data
