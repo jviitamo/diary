@@ -66,12 +66,17 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
+  console.log(to.meta)
   const publicPages = ['/login', '/signup', '/home'];
   const authRequired = !publicPages.includes(to.path);
   const loggedIn = localStorage.getItem('user');
+  const availableRoutes = router.options.routes.map(route => route.path)
+
   // trying to access a restricted page + not logged in
   // redirect to login page
-  if (authRequired && !loggedIn) {
+  if (loggedIn && !availableRoutes.includes(to.path)) {
+    next('/areaposts')
+  } else if (authRequired && !loggedIn) {
     next('/login');
   } else {
     next();
