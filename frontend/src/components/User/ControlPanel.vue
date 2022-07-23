@@ -8,11 +8,11 @@
         <form>
           <select v-model="username" name="Kayttaja">
               <option value="" selected hidden disabled>Valitse käyttäjä</option>
-              <option class="option" v-for="username in usernames" :value="username"  :key="username">{{ username }}</option>
+              <option class="option" v-for="user in UsersWithNoLocation" :value="user.username"  :key="user.username">{{ user.username }}</option>
           </select>
           <select v-model="location" name="Sijainti">
               <option value="" selected hidden disabled>Valitse sijainti</option>
-              <option class="option" v-for="location in locations" :value="location"  :key="location">{{ location }}</option>
+              <option class="option" v-for="location in allLocations" :value="location.locationname"  :key="location.locationname">{{ location.locationname }}</option>
           </select>
           <button @click.prevent="changeLocation(this.username, this.location)">Vaihda sijaintia</button>
         </form>
@@ -30,7 +30,7 @@
             <td>Käyttäjänimi</td>
             <td>Sijainti</td>
           </tr>
-          <tr v-for="user in dataAllUsers" :key="user.username">
+          <tr v-for="user in allUsers" :key="user.username">
             <td>{{ user.username }}</td>
             <td>{{ user.location }}</td>
           </tr>
@@ -43,7 +43,7 @@
             <td>Osoite</td>
             <td>Pääkäyttäjä</td>
           </tr>
-          <tr v-for="location in dataAllLocations" :key="location.locationname">
+          <tr v-for="location in allLocations" :key="location.locationname">
             <td>{{ location.locationname }}</td>
             <td>{{ location.address }}</td>
             <td>{{ location.locationadmin }}</td>
@@ -76,8 +76,9 @@ export default {
         showMessage: '',
         locationAddress: '',
         locationName: '',
-        dataAllUsers: [],
-        dataAllLocations: []
+        UsersWithNoLocation: [],
+        allLocations: [],
+        allUsers: []
     }
   },
   methods: {
@@ -88,8 +89,8 @@ export default {
       } else {
             try {
               await axios({
-                  method: 'post',
-                  url: `${process.env.VUE_APP_API_URL}/locations/changelocation`,
+                  method: 'put',
+                  url: `${process.env.VUE_APP_API_URL}/locations/`,
                   data: {
                       "username": username, 
                       "location": location
@@ -117,7 +118,7 @@ export default {
             try {
               await axios({
                   method: 'post',
-                  url: `${process.env.VUE_APP_API_URL}/locations/addlocation`,
+                  url: `${process.env.VUE_APP_API_URL}/locations/`,
                   data: {
                       "name": locationName, 
                       "address": locationAddress
@@ -139,20 +140,14 @@ export default {
     }
   },
   async created() {
-    const responseLocations = await axios.get(`${process.env.VUE_APP_API_URL}/posts/locations`, { headers: authHeader() })
-    const dataLocations = await responseLocations.data
-    this.locations = dataLocations.map(location => location.locationname)
-
-    const responseUsers = await axios.get(`${process.env.VUE_APP_API_URL}/users/nolocation`, { headers: authHeader() })
-    const dataUsers = await responseUsers.data
-    this.usernames = dataUsers.map(user => user.username)
-
-    const responseAllUsers = await axios.get(`${process.env.VUE_APP_API_URL}/users/all`, { headers: authHeader() })
-    this.dataAllUsers = await responseAllUsers.data
-
-    const responseAllLocations = await axios.get(`${process.env.VUE_APP_API_URL}/locations/all`, { headers: authHeader() })
-    this.dataAllLocations = await responseAllLocations.data
+    const responseLocations = await axios.get(`${process.env.VUE_APP_API_URL}/locations/`, { headers: authHeader() })
+    this.allLocations = await responseLocations.data
     
+    const responseUsersWithNoLocation = await axios.get(`${process.env.VUE_APP_API_URL}/users/?location=null`, { headers: authHeader() })
+    this.UsersWithNoLocation = await responseUsersWithNoLocation.data
+
+    const responseAllUsers = await axios.get(`${process.env.VUE_APP_API_URL}/users/`, { headers: authHeader() })
+    this.allUsers = await responseAllUsers.data
   }
 }
 </script>

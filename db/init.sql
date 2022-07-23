@@ -1,7 +1,8 @@
 CREATE TABLE public.users (
     username VARCHAR unique NOT NULL primary key,
     password CHAR(60),
-    location VARCHAR DEFAULT NULL
+    location VARCHAR DEFAULT NULL,
+    type VARCHAR DEFAULT 'user'
 );
 
 CREATE TABLE public.locations (

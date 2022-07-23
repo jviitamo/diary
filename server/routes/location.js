@@ -7,7 +7,7 @@ const credentials = require("../helpers/credentials")
 const { Pool } = require("pg");
 const middleware = require("../helpers/middleware")
 
-router.get("/all", middleware, async (req, res) => {
+router.get("/", middleware, async (req, res) => {
     const pool = new Pool(credentials);
     try {
         const locations = await pool.query("SELECT * FROM locations") 
@@ -18,7 +18,7 @@ router.get("/all", middleware, async (req, res) => {
     }
   });
 
-router.post("/addlocation",middleware, async (req, res) => {
+router.post("/",middleware, async (req, res) => {
   const pool = new Pool(credentials);
   try {
       const response = await pool.query("INSERT INTO locations VALUES($1, $2, $3)", [req.body.name, req.body.address, 'juhana']) 
@@ -29,10 +29,10 @@ router.post("/addlocation",middleware, async (req, res) => {
   }
 });
 
-router.post("/changelocation", middleware, async (req, res) => {
+router.put("/", middleware, async (req, res) => {
     const pool = new Pool(credentials);
     try {
-        const response = await pool.query("UPDATE users SET location=$1 WHERE username=$2", [req.body.location, req.body.username]) 
+        const response = await pool.query("UPDATE users SET location=$1 WHERE username=$2 and location IS NULL", [req.body.location, req.body.username]) 
         await pool.end();
         res.json(response)
     } catch (error) {
