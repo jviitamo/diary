@@ -18,7 +18,7 @@ export default {
   name: 'Navbar',
   methods: {
     isAdmin() {
-      if (this.isSigned) {
+      if (this.isSigned()) {
         return JSON.parse(localStorage.getItem('user')).type === "admin"
       }
       return false

@@ -6,7 +6,7 @@ const router = Router();
 const { SECRET = "secret" } = process.env;
 const credentials = require("../helpers/credentials")
 const { Pool } = require("pg");
-const middleware = require("../helpers/middleware")
+const { isLoggedIn, isAdmin } = require("../helpers/middleware")
 const { getUsers } = require("../helpers/user-functions")
 
 router.post("/signup", async (req, res) => {
@@ -38,7 +38,7 @@ router.post("/login", async (req, res) => {
       const result = await bcrypt.compare(req.body.password, user.password);
       if (result) {
         // sign token and send it in response
-        const token = await jwt.sign({ username: user.username }, SECRET);
+        const token = await jwt.sign({ username: user.username, location: user.location, type: user.type }, SECRET);
         res.json({ token, username: user.username, location: user.location, type: user.type });
       } else {
         res.status(400).json("Väärä salasana");
@@ -51,14 +51,14 @@ router.post("/login", async (req, res) => {
   }
 });
 
-router.get('/', middleware, async (req, res, next) => {
+router.get('/', isLoggedIn, isAdmin, async (req, res, next) => {
   try {
     res.json(await getUsers(req.query));
   } catch (err) {
       next(err);
   }});
 
-router.put('/newpassword', middleware, async (req, res, next) => {
+router.put('/newpassword', isLoggedIn, async (req, res, next) => {
   try {
     const pool = new Pool(credentials);
     const new_password = await bcrypt.hash(req.body.new_password, 10);
@@ -76,5 +76,16 @@ router.put('/newpassword', middleware, async (req, res, next) => {
       next(err);
   }
   });
+
+router.put("/setlocation", isLoggedIn, isAdmin, async (req, res) => {
+  const pool = new Pool(credentials);
+  try {
+      const response = await pool.query("UPDATE users SET location=$1 WHERE username=$2 and location IS NULL", [req.body.location, req.body.username]) 
+      await pool.end();
+      res.json(response)
+  } catch (error) {
+      res.status(400).json({ error });
+  }
+});
 
 module.exports = router;

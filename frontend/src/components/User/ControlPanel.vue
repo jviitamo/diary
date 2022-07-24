@@ -90,7 +90,7 @@ export default {
             try {
               await axios({
                   method: 'put',
-                  url: `${process.env.VUE_APP_API_URL}/locations/`,
+                  url: `${process.env.VUE_APP_API_URL}/users/setlocation`,
                   data: {
                       "username": username, 
                       "location": location
@@ -142,7 +142,7 @@ export default {
   async created() {
     const responseLocations = await axios.get(`${process.env.VUE_APP_API_URL}/locations/`, { headers: authHeader() })
     this.allLocations = await responseLocations.data
-    
+
     const responseUsersWithNoLocation = await axios.get(`${process.env.VUE_APP_API_URL}/users/?location=null`, { headers: authHeader() })
     this.UsersWithNoLocation = await responseUsersWithNoLocation.data
 

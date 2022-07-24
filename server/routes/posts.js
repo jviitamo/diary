@@ -1,7 +1,7 @@
 const posts = require('../helpers/post-functions');
 const multer = require("multer");
 const { Router } = require("express");
-const middleware = require("../helpers/middleware")
+const { isLoggedIn, hasAccesstoContent } = require("../helpers/middleware")
 
 
 var storage = multer.diskStorage({   
@@ -16,7 +16,7 @@ var storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 const router = Router(); 
 
-router.post('/', middleware, async (req, res, next) => {
+router.post('/', isLoggedIn, async (req, res, next) => {
     try {
       if (req.query.location === null) res.json(400, {error: "Tarvitse sijainnin postauksia varten"})
       else res.json(await posts.insertPost(req.body, req.query));
@@ -25,13 +25,13 @@ router.post('/', middleware, async (req, res, next) => {
     }
   });
   
-router.post('/upload', upload.single('file'), middleware, function(req, res) {
+router.post('/upload', upload.single('file'), isLoggedIn, function(req, res) {
 const file = req.file;
 
 res.json({path: file.filename});
 });
 
-router.get('/', middleware, async (req, res, next) => {
+router.get('/', isLoggedIn, hasAccesstoContent, async (req, res, next) => {
   try {
       res.json(await posts.getPosts(req.query));
   } catch (err) {

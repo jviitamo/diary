@@ -27,5 +27,37 @@ const isLoggedIn = async (req, res, next) => {
   }
 };
 
+const isAdmin = async (req, res, next) => {
+  try {
+    // check if auth header exists
+    if (req.user.type === 'admin') {
+      next()
+    } else res.status(400).json({ error: "You are not admin" });
+  } catch (error) {
+    res.status(400).json({ error });
+  }
+};
+
+const hasAccesstoContent = async (req, res, next) => {
+  try {
+    // check if auth header exists
+    if (req.user.type === 'admin' || checkIfHasAccess(req)) {
+      next()
+    } else res.status(400).json({ error: "You are not admin" });
+  } catch (error) {
+    res.status(400).json({ error });
+  }
+};
+
+const checkIfHasAccess = (req) => {
+  const user = req.user
+  const data = req.body
+  return user.location === data.location || user.username === data.username
+}
+
 // export custom middleware
-module.exports = isLoggedIn
+module.exports = {
+  isLoggedIn,
+  isAdmin,
+  hasAccesstoContent
+}

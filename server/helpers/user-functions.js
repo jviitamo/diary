@@ -29,9 +29,7 @@ async function getUsers(user) {
     }
     const users = await pool.query(baseSqlQuery, params);
     await pool.end();
-    if (users.rows.length = 1) {
-        return users.rows
-    } else return users.rows;
+    return users.rows;
 }
 
 

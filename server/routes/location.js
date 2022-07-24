@@ -1,13 +1,11 @@
 require("dotenv").config();
 const { Router } = require("express");
-const bcrypt = require("bcryptjs"); 
-const jwt = require("jsonwebtoken"); 
 const router = Router(); 
 const credentials = require("../helpers/credentials")
 const { Pool } = require("pg");
-const middleware = require("../helpers/middleware")
+const { isLoggedIn, isAdmin } = require("../helpers/middleware")
 
-router.get("/", middleware, async (req, res) => {
+router.get("/", isLoggedIn, isAdmin, async (req, res) => {
     const pool = new Pool(credentials);
     try {
         const locations = await pool.query("SELECT * FROM locations") 
@@ -18,7 +16,7 @@ router.get("/", middleware, async (req, res) => {
     }
   });
 
-router.post("/",middleware, async (req, res) => {
+router.post("/", isLoggedIn, isAdmin, async (req, res) => {
   const pool = new Pool(credentials);
   try {
       const response = await pool.query("INSERT INTO locations VALUES($1, $2, $3)", [req.body.name, req.body.address, 'juhana']) 
@@ -29,16 +27,6 @@ router.post("/",middleware, async (req, res) => {
   }
 });
 
-router.put("/", middleware, async (req, res) => {
-    const pool = new Pool(credentials);
-    try {
-        const response = await pool.query("UPDATE users SET location=$1 WHERE username=$2 and location IS NULL", [req.body.location, req.body.username]) 
-        await pool.end();
-        res.json(response)
-    } catch (error) {
-        res.status(400).json({ error });
-    }
-  });
 
 
 
