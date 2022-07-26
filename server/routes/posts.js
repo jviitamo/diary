@@ -18,8 +18,8 @@ const router = Router();
 
 router.post('/', isLoggedIn, async (req, res, next) => {
     try {
-      if (req.query.location === null) res.json(400, {error: "Tarvitse sijainnin postauksia varten"})
-      else res.json(await posts.insertPost(req.body, req.query));
+      if (typeof req.user.location === 'undefined') res.json(400, {error: "Tarvitse sijainnin postauksia varten"})
+      else res.json(await posts.insertPost(req.body, req.user));
     } catch (err) {
       next(err);
     }

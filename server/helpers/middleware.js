@@ -43,16 +43,20 @@ const hasAccesstoContent = async (req, res, next) => {
     // check if auth header exists
     if (req.user.type === 'admin' || checkIfHasAccess(req)) {
       next()
-    } else res.status(400).json({ error: "You are not admin" });
+    } else res.status(400).json({ error: "You dont have access to this content" });
   } catch (error) {
     res.status(400).json({ error });
   }
 };
 
 const checkIfHasAccess = (req) => {
-  const user = req.user
-  const data = req.body
-  return user.location === data.location || user.username === data.username
+  if (typeof req.query.location !== 'undefined' && typeof req.query.username !== 'undefined') {
+    return req.user.location === req.query.location && req.user.username === req.query.username
+  } else if (typeof req.query.location === 'undefined' && typeof req.query.username !== 'undefined') {
+    return req.user.username === req.query.username
+  } else if (typeof req.query.location !== 'undefined' && typeof req.query.username === 'undefined') {
+    return req.user.location === req.query.location
+  } else return false
 }
 
 // export custom middleware

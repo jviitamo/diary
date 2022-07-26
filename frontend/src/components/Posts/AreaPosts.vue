@@ -26,8 +26,10 @@ export default {
     async created() {
         const user = JSON.parse(localStorage.getItem('user'))
         this.userLocation = user.location
-        const postsResponse = await axios.get(`${process.env.VUE_APP_API_URL}/posts/?location=${user.location}`, { headers: authHeader() })
-        this.posts = postsResponse.data
+        if (user.location !== null) {
+          const postsResponse = await axios.get(`${process.env.VUE_APP_API_URL}/posts/?location=${user.location}`, { headers: authHeader() })
+          this.posts = postsResponse.data
+        }
     },
     components: { Overlay }
 }

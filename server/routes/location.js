@@ -19,7 +19,7 @@ router.get("/", isLoggedIn, isAdmin, async (req, res) => {
 router.post("/", isLoggedIn, isAdmin, async (req, res) => {
   const pool = new Pool(credentials);
   try {
-      const response = await pool.query("INSERT INTO locations VALUES($1, $2, $3)", [req.body.name, req.body.address, 'juhana']) 
+      const response = await pool.query("INSERT INTO locations VALUES($1, $2, $3)", [req.body.name, req.body.address, req.user.username]) 
       await pool.end();
       res.json(response)
   } catch (error) {
