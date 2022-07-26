@@ -38,7 +38,7 @@ router.post("/login", async (req, res) => {
       const result = await bcrypt.compare(req.body.password, user.password);
       if (result) {
         // sign token and send it in response
-        const token = await jwt.sign({ username: user.username, location: user.location, type: user.type }, SECRET);
+        const token = await jwt.sign({ username: user.username, location: user.location, type: user.type }, SECRET, { expiresIn: process.env.JWT_EXPIRES_IN });
         res.json({ token, username: user.username, location: user.location, type: user.type });
       } else {
         res.status(400).json("Väärä salasana");
