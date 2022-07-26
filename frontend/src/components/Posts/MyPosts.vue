@@ -1,8 +1,9 @@
 <template>
     <div class="post-container">
         <p>Sinun postauksesi</p>
+        <input type="text" @change="updateFilteredPosts()" v-model="filter" placeholder="Hae postauksista">
         <div class="posts">
-            <Overlay v-for="post in posts" :key="post.id" :name="post.name" :publisher="post.publisher" :content="post.content" :photo="post.photo"/>
+            <Overlay v-for="post in posts.filter(post => post.name.toLowerCase().includes(filter.toLowerCase()))" :key="post.id" :name="post.name" :publisher="post.publisher" :content="post.content" :photo="post.photo"/>
             <p v-if="posts.length === 0">Sinulla ei ole postauksia</p>
         </div>
     </div>
@@ -19,7 +20,8 @@ export default {
     name: "MyPosts",
     data() {
         return {
-            posts: []
+            posts: [],
+            filter: ''
         };
     },
     created() {
@@ -30,6 +32,13 @@ export default {
             .then(response => {
               this.posts = response.data
             });
+    },
+    methods: {
+      updateFilteredPosts() {
+        if (this.filter !== '') {
+          this.filteredPosts = this.posts.filter(post => post.name.includes(this.filter))
+        } else this.filteredPosts = this.posts
+      }
     },
     components: { Overlay }
 }
