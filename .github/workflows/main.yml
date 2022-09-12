@@ -51,12 +51,6 @@ jobs:
 
       - uses: actions/checkout@v2
       
-      - name: Navigate to app folder
-        run: cd app
-      - name: Open Directory
-        working-directory: app
-        run: |
-          ls -la
       - name: Build docker image
         run: docker build . -f ./server/Dockerfile
       
