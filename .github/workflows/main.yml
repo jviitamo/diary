@@ -53,8 +53,8 @@ jobs:
         with:
           push: true
           tags: 040100/diary:latest
-          context: server
-          file: server/Dockerfile
+          context: ./server
+          file: ./server/Dockerfile
 
       
     
