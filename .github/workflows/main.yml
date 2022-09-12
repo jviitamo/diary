@@ -51,10 +51,18 @@ jobs:
 
       - uses: actions/checkout@v2
       
-      - name: Build docker image
-        run: docker build . -t 040100/diary:server-github-actions -f ./server/Dockerfile 
+      - name: Build docker images
+      - run: |
+        run: docker build . -t 040100/diary:server -f ./server/Dockerfile 
+        run: docker build . -t 040100/diary:frontend -f ./frontend/Dockerfile 
+        run: docker build . -t 040100/diary:database -f ./database/Dockerfile 
 
-      - name: Push docker image
-        run: docker image push 040100/diary:server-github-actions
+
+      - name: Push docker images
+      - run: |
+          docker image push 040100/diary:server
+          docker image push 040100/diary:frontend
+          docker image push 040100/diary:database
+
       
     
