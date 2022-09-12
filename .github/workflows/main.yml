@@ -53,9 +53,9 @@ jobs:
       
       - name: Build docker images
       - run: |
-        run: docker build . -t 040100/diary:server -f ./server/Dockerfile 
-        run: docker build . -t 040100/diary:frontend -f ./frontend/Dockerfile 
-        run: docker build . -t 040100/diary:database -f ./database/Dockerfile 
+          docker build . -t 040100/diary:server -f ./server/Dockerfile 
+          docker build . -t 040100/diary:frontend -f ./frontend/Dockerfile 
+          docker build . -t 040100/diary:database -f ./database/Dockerfile 
 
 
       - name: Push docker images
