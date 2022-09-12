@@ -49,18 +49,12 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      - uses: actions/checkout@v2
-      
-      - name: Navigate to app folder
-        run: cd server
-      - name: Open Directory
-        working-directory: server
-        run: |
-          ls -la
-      - name: Build docker image
-        run: docker build . 
-      - name: Push image
-        run: docker image push 040100/diary:server3
-        
+      - name: Build and push
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          file: ./server/Dockerfile
+          push: true
+          tags: ${{secrets.DOCKER_USERNAME}}/diary:latest
       
     
