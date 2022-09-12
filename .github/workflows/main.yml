@@ -49,6 +49,8 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
+      - uses: actions/checkout@v2
+
       - name: Build docker images
         run: |
          docker build . -t 040100/diary:server -f ./server/Dockerfile 
@@ -60,4 +62,6 @@ jobs:
          docker image push 040100/diary:server
          docker image push 040100/diary:frontend
          docker image push 040100/diary:database
+
+
       
