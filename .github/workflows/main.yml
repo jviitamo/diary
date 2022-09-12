@@ -53,7 +53,5 @@ jobs:
       
       - name: Build docker image
         run: docker build . -f ./server/Dockerfile
-        with:
-          context: .
       
     
