@@ -39,4 +39,8 @@ services:
         volumes:
             - ./frontend:/usr/src/app
             - /usr/src/app/node_modules
+    watchtower:
+        image: containrrr/watchtower
+        volumes:
+            - /var/run/docker.sock:/var/run/docker.sock
 
