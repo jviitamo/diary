@@ -49,7 +49,6 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: Set up docker image
       - uses: actions/checkout@v2
       
       - name: Navigate to app folder
@@ -62,6 +61,6 @@ jobs:
         run: docker build . 
       - name: Push image
         run: docker image push 040100/diary:server3
-
+        
       
     
